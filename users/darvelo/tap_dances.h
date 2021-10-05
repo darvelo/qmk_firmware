@@ -35,5 +35,7 @@ td_state_t cur_dance(qk_tap_dance_state_t *state);
 void code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
 void code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
 // For the `surround_punctuation` tap dance. Put it here so it can be used in any keymap.
-void add_left_surround_punctuation(qk_tap_dance_state_t *state, void *user_data);
-void add_right_surround_punctuation(qk_tap_dance_state_t *state, void *user_data);
+void left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
+void left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
+void right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
+void right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
