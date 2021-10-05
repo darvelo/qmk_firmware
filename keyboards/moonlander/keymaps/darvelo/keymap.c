@@ -180,25 +180,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case VRSN:
-            SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            if (record->event.pressed) {
+                SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+            }
             return false;
-        case KC_2:
-            if (record->event.pressed) {
-                PLAY_SONG(terra);
-            }
-            break;
-        case KC_3:
-            if (record->event.pressed) {
-                PLAY_SONG(oneup);
-                /* send_unicode_string("(ノಠ痊ಠ)ノ彡┻━┻"); */
-            }
-            break;
         case RGB_SLD:
             if (record->event.pressed) {
                 rgblight_mode(1);
             }
             return false;
-            break;
 #ifdef UNICODE_ENABLE
         case UC_MOD: {
                 if (record->event.pressed) {
