@@ -26,8 +26,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 //            return TAPPING_TERM + 1250;
 //        case LT(1, KC_GRV):
 //            return 130;
-//        case TD(CT_KEYCODE):
-//            return 250;
+        /* case TD(CT_LSND): */
+        /*     return 100; */
+        /* case TD(CT_RSND): */
+        /*     return 100; */
         default:
             return TAPPING_TERM;
     }
@@ -225,6 +227,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 qk_tap_dance_action_t tap_dance_actions[] = {
     [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, code_punctuation_finished, code_punctuation_reset),
-    [CT_LSND] = ACTION_TAP_DANCE_FN(add_left_surround_punctuation),
-    [CT_RSND] = ACTION_TAP_DANCE_FN(add_right_surround_punctuation)
+    [CT_LSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, left_surround_punctuation_finished, left_surround_punctuation_reset),
+    [CT_RSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, right_surround_punctuation_finished, right_surround_punctuation_reset)
 };
