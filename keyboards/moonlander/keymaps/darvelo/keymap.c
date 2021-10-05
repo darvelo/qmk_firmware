@@ -2,6 +2,7 @@
 
 #include QMK_KEYBOARD_H
 #include "version.h"
+#include "darvelo.h"
 
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
@@ -15,6 +16,23 @@
 #define BP_NDSH_MAC ALGR(KC_8)
 #define MOON_LED_LEVEL LED_LEVEL
 
+
+/* Configurable TAPPING_TERM_PER_KEY */
+
+#ifdef TAPPING_TERM_PER_KEY
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+//        case SFT_T(KC_SPC):
+//            return TAPPING_TERM + 1250;
+//        case LT(1, KC_GRV):
+//            return 130;
+//        case TD(CT_KEYCODE):
+//            return 250;
+        default:
+            return TAPPING_TERM;
+    }
+}
+#endif
 
 /* Config Vars */
 
@@ -103,9 +121,9 @@ void rgb_matrix_indicators_user(void) {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC] = LAYOUT_moonlander(
-        KC_EQL,           KC_1,         KC_2,             KC_3,       KC_4,    KC_5,    UC_MOD,                  UC_SHRG,        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,              KC_MINS,
-        KC_DEL,           KC_Q,         KC_W,             KC_E,       KC_R,    KC_T,    _______,                 _______,       KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,              KC_BSLS,
-        KC_ESC,           KC_A,         KC_S,             KC_D,       KC_F,    KC_G,    KC_HYPR,                 KC_MEH,         KC_H,    KC_J,    KC_K,    KC_L,    LT(MDIA, KC_SCLN), LGUI_T(KC_QUOT),
+        KC_EQL,           KC_EXLM,      KC_AT,            KC_HASH,    KC_DLR,  KC_PERC, UC_MOD,                  UC_SHRG,        KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,           KC_MINS,
+        KC_DEL,           KC_Q,         KC_W,             KC_E,       KC_R,    KC_T,    _______,                 _______,        KC_Y,    TD(CT_LSND),    TD(CT_RSND),    KC_O,    KC_P,              KC_BSLS,
+        KC_ESC,           KC_A,         KC_S,             KC_D,       KC_F,    KC_G,    KC_HYPR,                 KC_MEH,         KC_H,    KC_J,    KC_K,    KC_L,    TD(CT_CPNC),       LT(MDIA, KC_SCLN),
         KC_LSFT,          LCTL_T(KC_Z), KC_X,             KC_C,       KC_V,    KC_B,                                             KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLSH),   KC_RSFT,
         LT(SYMB, KC_GRV), WEBUSB_PAIR,  A(KC_LSFT),       KC_LEFT,    KC_RGHT,          LALT_T(KC_APP),          KC_LCTRL,                KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC,           MO(SYMB),
                                                                       KC_SPC,  KC_BSPC, KC_LGUI,                 LALT_T(KC_TAB), KC_ESC,  KC_ENT
@@ -187,3 +205,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     return true;
 }
+
+/* Tap Dance Configuration */
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, code_punctuation_finished, code_punctuation_reset),
+    [CT_LSND] = ACTION_TAP_DANCE_FN(add_left_surround_punctuation),
+    [CT_RSND] = ACTION_TAP_DANCE_FN(add_right_surround_punctuation)
+};
