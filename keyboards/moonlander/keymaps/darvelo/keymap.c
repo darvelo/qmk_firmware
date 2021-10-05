@@ -146,11 +146,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [SYMB] = LAYOUT_moonlander(
-        VRSN,    KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,                     _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        _______, KC_EXLM,  KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, _______,                     _______, KC_UP,   KC_7,    KC_8,    KC_9,    KC_ASTR, KC_F12,
-        _______, KC_HASH,  KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,  _______,                     _______, KC_DOWN, KC_4,    KC_5,    KC_6,    KC_PLUS, KC_BRIU,
-        _______, KC_PERC,  KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD,                                       KC_AMPR, KC_1,    KC_2,    KC_3,    KC_BSLS, KC_BRID,
-        _______, KC_COMMA, _______, _______, _______,          RGB_MOD,                     RGB_TOG,          _______, KC_DOT,  KC_0,    KC_EQL,  _______,
+        VRSN,    KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,                     _______, KC_F6,   KC_F7,  KC_F8, KC_F9,  KC_F10,  KC_F11,
+        _______, KC_EXLM,  KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, _______,                     _______, KC_UP,   KC_1,   KC_2,  KC_3,   KC_ASTR, KC_F12,
+        _______, KC_HASH,  KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,  _______,                     _______, KC_DOWN, KC_4,   KC_5,  KC_6,   KC_PLUS, KC_BRIU,
+        _______, KC_PERC,  KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD,                                       KC_AMPR, KC_7,   KC_8,  KC_9,   KC_BSLS, KC_BRID,
+        _______, KC_COMMA, _______, _______, _______,          RGB_MOD,                     RGB_TOG,          KC_DOT, KC_0,  KC_EQL, _______, _______,
                                              RGB_VAD, RGB_VAI, TOGGLE_LAYER_COLOR,          RGB_SLD, RGB_HUD, RGB_HUI
     ),
 
