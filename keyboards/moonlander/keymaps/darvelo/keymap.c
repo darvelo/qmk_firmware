@@ -30,12 +30,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         /*     return 100; */
         /* case TD(CT_RSND): */
         /*     return 100; */
-        case LCTL_T(KC_A):
-            return 250;
-        case LSFT_T(KC_S):
-            return 250;
-        case LALT_T(KC_D):
-            return 250;
         default:
             return TAPPING_TERM;
     }
@@ -137,10 +131,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC] = LAYOUT_moonlander(
         KC_EQL,           KC_EXLM,      KC_AT,            KC_HASH,      KC_DLR,           KC_PERC, UC_MOD,                  UC_SHRG,        KC_CIRC, KC_AMPR,         KC_ASTR,     KC_LPRN, KC_RPRN,           KC_MINS,
         KC_DEL,           KC_Q,         KC_W,             KC_E,         KC_R,             KC_T,    _______,                 TG(GAME),       KC_Y,    TD(CT_LSND),     TD(CT_RSND), KC_O,    KC_P,              KC_BSLS,
-        KC_ESC,           LCTL_T(KC_A), LSFT_T(KC_S),     LALT_T(KC_D), KC_F,             KC_G,    KC_HYPR,                 KC_MEH,         KC_H,    KC_J,            KC_K,        KC_L,    TD(CT_CPNC),       LT(MDIA, KC_SCLN),
+        LSFT_T(KC_ESC),   KC_A,         KC_S,             KC_D,         KC_F,             KC_G,    KC_HYPR,                 KC_MEH,         KC_H,    KC_J,            KC_K,        KC_L,    TD(CT_CPNC),       LT(MDIA, KC_SCLN),
         KC_LSFT,          LCTL_T(KC_Z), KC_X,             KC_C,         KC_V,             KC_B,                                             KC_N,    KC_M,            KC_COMM,     KC_DOT,  RCTL_T(KC_SLSH),   KC_RSFT,
-        LT(SYMB, KC_GRV), _______,      _______,          A(KC_LSFT),   LGUI_T(KC_APP),            LGUI_T(KC_APP),          KC_LCTRL,                LGUI_T(KC_APP),  KC_DOWN,     KC_LBRC, KC_RBRC,           MO(SYMB),
-                                                                        KC_SPC,           KC_BSPC, _______,                 LALT_T(KC_TAB), KC_ESC,  KC_ENT
+        LT(SYMB, KC_GRV), _______,      _______,          KC_LALT,      LGUI_T(KC_APP),            LGUI_T(KC_APP),          KC_LCTRL,                LGUI_T(KC_APP),  KC_DOWN,     KC_LBRC, KC_RBRC,           MO(SYMB),
+                                                                        KC_SPC,           KC_BSPC, LCTL_T(KC_DEL),          LALT_T(KC_TAB), KC_ESC,  KC_ENT
     ),
 
     [LINUX] = LAYOUT_moonlander(
