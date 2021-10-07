@@ -4,6 +4,8 @@
 #include "version.h"
 #include "darvelo.h"
 
+#define KC_MAC_TABBCK LGUI(LSFT(KC_LBRC))
+#define KC_MAC_TABFWD LGUI(LSFT(KC_RBRC))
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
 #define KC_MAC_COPY LGUI(KC_C)
@@ -260,7 +262,7 @@ void rgb_matrix_indicators_user(void) {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC] = LAYOUT_moonlander(
-        TG(VIM),          KC_EXLM,      KC_AT,            KC_HASH,            KC_DLR,             KC_PERC, LCTL(LSFT(KC_TAB)),      LCTL(KC_TAB),      KC_CIRC, KC_AMPR,            KC_ASTR,     KC_LPRN, KC_RPRN,     UC_MOD,
+        TG(VIM),          KC_EXLM,      KC_AT,            KC_HASH,            KC_DLR,             KC_PERC, KC_MAC_TABBCK,           KC_MAC_TABFWD,     KC_CIRC, KC_AMPR,            KC_ASTR,     KC_LPRN, KC_RPRN,     UC_MOD,
         _______,          KC_Q,         KC_W,             KC_E,               KC_R,               KC_T,    KC_APP,                  _______,           KC_Y,    TD(CT_LSND),        TD(CT_RSND), KC_O,    KC_P,        KC_BSLS,
         KC_LSFT,          KC_A,         KC_S,             KC_D,               KC_F,               KC_G,    KC_HYPR,                 KC_MEH,            KC_H,    KC_J,               KC_K,        KC_L,    TD(CT_CPNC), TD(CT_EPNC),
         LT(SYMB, KC_GRV), KC_Z,         KC_X,             KC_C,               KC_V,               KC_B,                                                KC_N,    KC_M,               KC_COMM,     KC_DOT,  KC_SLSH,     KC_MINS,
