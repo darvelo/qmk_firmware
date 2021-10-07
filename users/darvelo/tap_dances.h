@@ -24,6 +24,7 @@ typedef struct {
 // Tap dance enums.
 enum tap_dance_codes {
     CT_CPNC,
+    CT_EPNC,
     CT_LSND,
     CT_RSND
 };
@@ -32,10 +33,13 @@ enum tap_dance_codes {
 td_state_t cur_dance(qk_tap_dance_state_t *state);
 
 // For the `code_punctuation` tap dance. Put it here so it can be used in any keymap.
-void code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
-void code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
+void semicolon_code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
+void semicolon_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
+// For the `extra_code_punctuation` tap dance. Put it here so it can be used in any keymap.
+void quote_extra_code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
+void quote_extra_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
 // For the `surround_punctuation` tap dance. Put it here so it can be used in any keymap.
-void left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
-void left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
-void right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
-void right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
+void u_left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
+void u_left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
+void i_right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
+void i_right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);

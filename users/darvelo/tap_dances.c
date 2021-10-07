@@ -55,15 +55,15 @@ td_state_t cur_dance(qk_tap_dance_state_t *state) {
     return TD_UNKNOWN;
 }
 
-// Create an instance of 'td_tap_t' for the 'code_punctuation' tap dance.
-static td_tap_t code_punctuation_tap_state = {
+// Create an instance of 'td_tap_t' for the 'semicolon_code_punctuation' tap dance.
+static td_tap_t semicolon_code_punctuation_tap_state = {
     .is_press_action = true,
     .state = TD_NONE
 };
 
-void code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
-    code_punctuation_tap_state.state = cur_dance(state);
-    switch (code_punctuation_tap_state.state) {
+void semicolon_code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
+    semicolon_code_punctuation_tap_state.state = cur_dance(state);
+    switch (semicolon_code_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
             // Need to expand both keys for this to work.
             // https://www.reddit.com/r/olkb/comments/73ue11/qmk_need_help_with_compiling_the_hex/dnt9elq/
@@ -95,8 +95,8 @@ void code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (code_punctuation_tap_state.state) {
+void semicolon_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (semicolon_code_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
             unregister_code16(KC_LSFT);
             unregister_code16(KC_SCOLON);
@@ -117,7 +117,7 @@ void code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
         default:
             break;
     }
-    code_punctuation_tap_state.state = TD_NONE;
+    semicolon_code_punctuation_tap_state.state = TD_NONE;
 }
 
 
@@ -130,15 +130,15 @@ void code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
 #define LPUNC_SURROUND_DOUBLE_HOLD KC_LBRC
 #define RPUNC_SURROUND_DOUBLE_HOLD KC_RBRC
 
-// Create an instance of 'td_tap_t' for the 'left_surround_punctuation' tap dance.
-static td_tap_t left_surround_punctuation_tap_state = {
+// Create an instance of 'td_tap_t' for the 'u_left_surround_punctuation' tap dance.
+static td_tap_t u_left_surround_punctuation_tap_state = {
     .is_press_action = true,
     .state = TD_NONE
 };
 
-void left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
-    left_surround_punctuation_tap_state.state = cur_dance(state);
-    switch (left_surround_punctuation_tap_state.state) {
+void u_left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
+    u_left_surround_punctuation_tap_state.state = cur_dance(state);
+    switch (u_left_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
             register_code16(KC_U);
             break;
@@ -163,8 +163,8 @@ void left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_
     }
 }
 
-void left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (left_surround_punctuation_tap_state.state) {
+void u_left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (u_left_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
             unregister_code16(KC_U);
             break;
@@ -183,21 +183,20 @@ void left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_dat
         default:
             break;
     }
-    left_surround_punctuation_tap_state.state = TD_NONE;
+    u_left_surround_punctuation_tap_state.state = TD_NONE;
 }
 
 
 
-
-// Create an instance of 'td_tap_t' for the 'right_surround_punctuation' tap dance.
-static td_tap_t right_surround_punctuation_tap_state = {
+// Create an instance of 'td_tap_t' for the 'i_right_surround_punctuation' tap dance.
+static td_tap_t i_right_surround_punctuation_tap_state = {
     .is_press_action = true,
     .state = TD_NONE
 };
 
-void right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
-    right_surround_punctuation_tap_state.state = cur_dance(state);
-    switch (right_surround_punctuation_tap_state.state) {
+void i_right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
+    i_right_surround_punctuation_tap_state.state = cur_dance(state);
+    switch (i_right_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
             register_code16(KC_I);
             break;
@@ -222,8 +221,8 @@ void right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user
     }
 }
 
-void right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
-    switch (right_surround_punctuation_tap_state.state) {
+void i_right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (i_right_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
             unregister_code16(KC_I);
             break;
@@ -242,5 +241,68 @@ void right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_da
         default:
             break;
     }
-    right_surround_punctuation_tap_state.state = TD_NONE;
+    i_right_surround_punctuation_tap_state.state = TD_NONE;
+}
+
+
+
+#define CT_EPNC_TAP KC_EQL
+#define CT_EPNC_HOLD KC_SCOLON
+#define CT_EPNC_DOUBLE_TAP KC_PLUS
+#define CT_EPNC_DOUBLE_HOLD KC_SLASH
+
+// Create an instance of 'td_tap_t' for the 'quote_extra_code_punctuation' tap dance.
+static td_tap_t quote_extra_code_punctuation_tap_state = {
+    .is_press_action = true,
+    .state = TD_NONE
+};
+
+void quote_extra_code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data) {
+    quote_extra_code_punctuation_tap_state.state = cur_dance(state);
+    switch (quote_extra_code_punctuation_tap_state.state) {
+        case TD_SINGLE_TAP:
+            register_code16(CT_EPNC_TAP);
+            break;
+        case TD_SINGLE_HOLD:
+            register_code16(CT_EPNC_HOLD);
+            break;
+        case TD_DOUBLE_TAP:
+            register_code16(CT_EPNC_DOUBLE_TAP);
+            break;
+        case TD_DOUBLE_HOLD:
+            register_code16(CT_EPNC_DOUBLE_HOLD);
+            break;
+        // Last case is for fast typing. Assuming your key is `f`:
+        // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
+        // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
+        case TD_DOUBLE_SINGLE_TAP:
+            tap_code16(KC_I);
+            register_code16(KC_I);
+            break;
+        default:
+            break;
+    }
+}
+
+void quote_extra_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
+    switch (quote_extra_code_punctuation_tap_state.state) {
+        case TD_SINGLE_TAP:
+            unregister_code16(CT_EPNC_TAP);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_code16(CT_EPNC_HOLD);
+            break;
+        case TD_DOUBLE_TAP:
+            unregister_code16(CT_EPNC_DOUBLE_TAP);
+            break;
+        case TD_DOUBLE_HOLD:
+            unregister_code16(CT_EPNC_DOUBLE_HOLD);
+            break;
+        case TD_DOUBLE_SINGLE_TAP:
+            unregister_code16(CT_EPNC_TAP);
+            break;
+        default:
+            break;
+    }
+    quote_extra_code_punctuation_tap_state.state = TD_NONE;
 }

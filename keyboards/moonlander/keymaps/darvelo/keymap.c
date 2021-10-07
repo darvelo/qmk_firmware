@@ -262,7 +262,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC] = LAYOUT_moonlander(
         TG(VIM),          KC_EXLM,      KC_AT,            KC_HASH,            KC_DLR,             KC_PERC, UC_MOD,                  LT(MDIA, KC_SCLN), KC_CIRC, KC_AMPR,            KC_ASTR,     KC_LPRN, KC_RPRN,     _______,
         _______,          KC_Q,         KC_W,             KC_E,               KC_R,               KC_T,    _______,                 TG(GAME),          KC_Y,    TD(CT_LSND),        TD(CT_RSND), KC_O,    KC_P,        KC_BSLS,
-        KC_LSFT,          KC_A,         KC_S,             KC_D,               KC_F,               KC_G,    KC_HYPR,                 KC_MEH,            KC_H,    KC_J,               KC_K,        KC_L,    TD(CT_CPNC), KC_EQL,
+        KC_LSFT,          KC_A,         KC_S,             KC_D,               KC_F,               KC_G,    KC_HYPR,                 KC_MEH,            KC_H,    KC_J,               KC_K,        KC_L,    TD(CT_CPNC), TD(CT_EPNC),
         LT(SYMB, KC_GRV), KC_Z,         KC_X,             KC_C,               KC_V,               KC_B,                                                KC_N,    KC_M,               KC_COMM,     KC_DOT,  KC_SLSH,     KC_MINS,
         _______,          _______,      _______,          LM(NUMS, MOD_LALT), LM(NUMS, MOD_LGUI),          KC_APP,                  KC_LCTRL,                   LM(NUMS, MOD_LGUI), _______,     KC_LBRC, KC_RBRC,     MO(SYMB),
                                                                               KC_SPC,             KC_BSPC, LCTL_T(KC_DEL),          LALT_T(KC_TAB),    KC_ESC,  KC_ENT
@@ -366,7 +366,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 /* Tap Dance Configuration */
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, code_punctuation_finished, code_punctuation_reset),
-    [CT_LSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, left_surround_punctuation_finished, left_surround_punctuation_reset),
-    [CT_RSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, right_surround_punctuation_finished, right_surround_punctuation_reset)
+    [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, semicolon_code_punctuation_finished, semicolon_code_punctuation_reset),
+    [CT_EPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quote_extra_code_punctuation_finished, quote_extra_code_punctuation_reset),
+    [CT_LSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, u_left_surround_punctuation_finished, u_left_surround_punctuation_reset),
+    [CT_RSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, i_right_surround_punctuation_finished, i_right_surround_punctuation_reset)
 };
