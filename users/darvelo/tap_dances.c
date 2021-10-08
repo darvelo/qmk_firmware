@@ -123,6 +123,8 @@ void semicolon_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_da
 
 
 
+#define LPUNC_SURROUND_TAP KC_U
+#define RPUNC_SURROUND_TAP KC_I
 #define LPUNC_SURROUND_HOLD KC_LCBR
 #define RPUNC_SURROUND_HOLD KC_RCBR
 #define LPUNC_SURROUND_DOUBLE_TAP KC_LPRN
@@ -140,7 +142,7 @@ void u_left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *use
     u_left_surround_punctuation_tap_state.state = cur_dance(state);
     switch (u_left_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
-            register_code16(KC_U);
+            register_code16(LPUNC_SURROUND_TAP);
             break;
         case TD_SINGLE_HOLD:
             register_code16(LPUNC_SURROUND_HOLD);
@@ -155,8 +157,8 @@ void u_left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *use
         // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
         // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
         case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(KC_U);
-            register_code16(KC_U);
+            tap_code16(LPUNC_SURROUND_TAP);
+            register_code16(LPUNC_SURROUND_TAP);
             break;
         default:
             break;
@@ -166,7 +168,7 @@ void u_left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *use
 void u_left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (u_left_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
-            unregister_code16(KC_U);
+            unregister_code16(LPUNC_SURROUND_TAP);
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(LPUNC_SURROUND_HOLD);
@@ -178,7 +180,7 @@ void u_left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_d
             unregister_code16(LPUNC_SURROUND_DOUBLE_HOLD);
             break;
         case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_U);
+            unregister_code16(LPUNC_SURROUND_TAP);
             break;
         default:
             break;
@@ -198,7 +200,7 @@ void i_right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *us
     i_right_surround_punctuation_tap_state.state = cur_dance(state);
     switch (i_right_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
-            register_code16(KC_I);
+            register_code16(RPUNC_SURROUND_TAP);
             break;
         case TD_SINGLE_HOLD:
             register_code16(RPUNC_SURROUND_HOLD);
@@ -213,8 +215,8 @@ void i_right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *us
         // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
         // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
         case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(KC_I);
-            register_code16(KC_I);
+            tap_code16(RPUNC_SURROUND_TAP);
+            register_code16(RPUNC_SURROUND_TAP);
             break;
         default:
             break;
@@ -224,7 +226,7 @@ void i_right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *us
 void i_right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data) {
     switch (i_right_surround_punctuation_tap_state.state) {
         case TD_SINGLE_TAP:
-            unregister_code16(KC_I);
+            unregister_code16(RPUNC_SURROUND_TAP);
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(RPUNC_SURROUND_HOLD);
@@ -236,7 +238,7 @@ void i_right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_
             unregister_code16(RPUNC_SURROUND_DOUBLE_HOLD);
             break;
         case TD_DOUBLE_SINGLE_TAP:
-            unregister_code16(KC_I);
+            unregister_code16(RPUNC_SURROUND_TAP);
             break;
         default:
             break;
