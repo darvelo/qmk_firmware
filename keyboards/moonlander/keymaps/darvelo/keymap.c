@@ -30,8 +30,6 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 //            return 130;
         /* case TD(CT_LSND): */
         /*     return 100; */
-        /* case TD(CT_RSND): */
-        /*     return 100; */
         default:
             return TAPPING_TERM;
     }
@@ -53,6 +51,7 @@ enum layers {
 enum custom_keycodes {
     VRSN = ML_SAFE_RANGE,
     RGB_SLD,
+    APP_SWCH,
     UC_SHRG,                                  // ¯\_(ツ)_/¯
 };
 
@@ -262,12 +261,12 @@ void rgb_matrix_indicators_user(void) {
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC] = LAYOUT_moonlander(
-        TG(VIM),          KC_EXLM,      KC_AT,            KC_HASH,            KC_DLR,             KC_PERC, KC_MAC_TABBCK,           KC_MAC_TABFWD,     KC_CIRC, KC_AMPR,            KC_ASTR,     KC_LPRN, KC_RPRN,     UC_MOD,
-        _______,          KC_Q,         KC_W,             KC_E,               KC_R,               KC_T,    KC_APP,                  _______,           KC_Y,    TD(CT_LSND),        TD(CT_RSND), KC_O,    KC_P,        KC_BSLS,
-        KC_LSFT,          KC_A,         KC_S,             KC_D,               KC_F,               KC_G,    KC_HYPR,                 KC_MEH,            KC_H,    KC_J,               KC_K,        KC_L,    TD(CT_CPNC), TD(CT_EPNC),
-        LT(SYMB, KC_GRV), KC_Z,         KC_X,             KC_C,               KC_V,               KC_B,                                                KC_N,    KC_M,               KC_COMM,     KC_DOT,  _______,     KC_MINS,
-        _______,          _______,      _______,          LM(NUMS, MOD_LALT), LM(NUMS, MOD_LGUI),          TG(GAME),                LT(MDIA, KC_SCLN),          LM(NUMS, MOD_LGUI), _______,     KC_LBRC, KC_RBRC,     MO(SYMB),
-                                                                              KC_SPC,             KC_BSPC, LCTL_T(KC_DEL),          LALT_T(KC_TAB),    KC_ESC,  KC_ENT
+        TG(VIM),          KC_EXLM,      KC_AT,            KC_HASH,            KC_DLR,             KC_PERC, KC_APP,                  APP_SWCH,          KC_CIRC,        KC_AMPR,            KC_ASTR,     _______, _______,     UC_MOD,
+        _______,          KC_Q,         KC_W,             KC_E,               KC_R,               KC_T,    KC_MAC_TABBCK,           KC_MAC_TABFWD,     KC_Y,           KC_U,               KC_I,        KC_O,    KC_P,        KC_BSLS,
+        KC_TAB,           KC_A,         KC_S,             KC_D,               KC_F,               KC_G,    KC_EQL,                 KC_MEH,            KC_H,           KC_J,               KC_K,        KC_L,    TD(CT_CPNC), TD(CT_EPNC),
+        LT(SYMB, KC_GRV), KC_Z,         KC_X,             KC_C,               KC_V,               KC_B,                                                KC_N,           KC_M,               KC_COMM,     KC_DOT,  KC_DQT,      KC_MINS,
+        MO(VIM),          _______,      KC_HYPR,          LM(NUMS, MOD_LALT), LM(NUMS, MOD_LGUI),          TG(GAME),                LT(MDIA, KC_SCLN),                 LM(NUMS, MOD_LGUI), _______,     _______, _______,     MO(SYMB),
+                                                                              KC_SPC,             KC_BSPC, LALT_T(KC_DEL),          TD(CT_SRND),       LCTL_T(KC_ENT), LSFT_T(KC_ESC)
     ),
 
     [LINUX] = LAYOUT_moonlander(
@@ -329,6 +328,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Configurable responses to keypresses by keycode (including custom keycodes defined above). */
 
+uint16_t key_timer_app_switch = 0;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case VRSN:
@@ -339,6 +340,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_SLD:
             if (record->event.pressed) {
                 rgblight_mode(1);
+            }
+            return false;
+        case APP_SWCH: {
+                if (record->event.pressed) {
+                    uint8_t unicode_input_mode = get_unicode_input_mode();
+                    uint16_t keycode_super;
+                    if (unicode_input_mode == UC_MAC) {
+                        keycode_super = KC_LGUI;
+                    } else {
+                        keycode_super = KC_LALT;
+                    }
+                    if (timer_elapsed(key_timer_app_switch) > 3000) {
+                        register_code16(keycode_super);
+                        tap_code16(KC_TAB);
+                    } else if (timer_elapsed(key_timer_app_switch) > 500) {
+                        unregister_code16(keycode_super);
+                    } else {
+                        tap_code16(KC_TAB);
+                    }
+                    key_timer_app_switch = timer_read();
+                }
             }
             return false;
 #ifdef UNICODE_ENABLE
@@ -370,6 +392,5 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 qk_tap_dance_action_t tap_dance_actions[] = {
     [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, semicolon_code_punctuation_finished, semicolon_code_punctuation_reset),
     [CT_EPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quote_extra_code_punctuation_finished, quote_extra_code_punctuation_reset),
-    [CT_LSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, u_left_surround_punctuation_finished, u_left_surround_punctuation_reset),
-    [CT_RSND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, i_right_surround_punctuation_finished, i_right_surround_punctuation_reset)
+    [CT_SRND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, surround_punctuation_finished, NULL), //surround_punctuation_reset),
 };
