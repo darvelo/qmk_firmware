@@ -25,8 +25,7 @@ typedef struct {
 enum tap_dance_codes {
     CT_CPNC,
     CT_EPNC,
-    CT_LSND,
-    CT_RSND
+    CT_SRND,
 };
 
 
@@ -39,7 +38,4 @@ void semicolon_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_da
 void quote_extra_code_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
 void quote_extra_code_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
 // For the `surround_punctuation` tap dance. Put it here so it can be used in any keymap.
-void u_left_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
-void u_left_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
-void i_right_surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
-void i_right_surround_punctuation_reset(qk_tap_dance_state_t *state, void *user_data);
+void surround_punctuation_finished(qk_tap_dance_state_t *state, void *user_data);
