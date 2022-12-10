@@ -4,6 +4,7 @@
 #include "version.h"
 #include "darvelo.h"
 
+
 #define KC_MAC_TABBCK LGUI(LSFT(KC_LBRC))
 #define KC_MAC_TABFWD LGUI(LSFT(KC_RBRC))
 #define KC_MAC_UNDO LGUI(KC_Z)
@@ -14,6 +15,7 @@
 #define KC_PC_CUT LCTL(KC_X)
 #define KC_PC_COPY LCTL(KC_C)
 #define KC_PC_PASTE LCTL(KC_V)
+#define KC_CAM LCTL(LALT(KC_KP_0))
 #define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
 #define BP_NDSH_MAC ALGR(KC_8)
 #define MOON_LED_LEVEL LED_LEVEL
@@ -38,14 +40,35 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 /* Config Vars */
 
+// The order of the layers matters! Read https://docs.qmk.fm/#/keymap?id=layer-precedence-and-transparency
+//
+// When a layer is activated its keymap DOES NOT get laid on top of the current keymap.
+// An item defined later in this enum will take precedence in the keymap over one defined before it when both are activated,
+// and so will layer its keys on top even if it was activated before a layer defined earlier in this enum was activated.
+//
+// In other words, given these layer definitions:
+//
+// enum layers { A, B, C }
+//
+// When B and C define a keycode on the same key, and B is activated _after_ C during usage (A -> C -> B), the key from _C_ will take the key because it was defined later in the enum.
+//
+// In the keymaps I must remember never to allow activating earlier-defined layers after later-defined layers.
+// Because of this I've split the layer definitions below into categories visually. Each category's items should be mutually exclusive on the active layer stack, and items in later categories shouldn't have keymaps to earlier categories.
 enum layers {
+    // Base layers.
     MAC,   // default layer
     LINUX, // Linux keys
-    NUMS,  // Turns num keys into numbers
-    VIM,
+
+    // Workflow layers.
+    BLNDR, // Blender
+    BLDR2, // Blender 2nd layer
+    CODE,  // Used for programming. Slight variation on the MAC layer.
+
+    // Utility layers.
     SYMB,  // symbols
+    NUMS,  // Turns num keys into numbers
     MDIA,  // media keys
-    GAME,  // gaming
+    KYBD,  // Keyboard-specific config keys
 };
 
 enum custom_keycodes {
@@ -57,14 +80,72 @@ enum custom_keycodes {
 
 /* Configurable layer colors and per-key colors. */
 
-#define BLUE {159,228,255}
-#define EGGSHELL {36,228,255}
-#define PINK {0,183,238}
-#define YELLOW {31,255,255}
+#define RED {RGB_RED}
+#define ORANGE {RGB_ORANGE}
+#define YELLOW {RGB_YELLOW}
 #define GREEN {RGB_GREEN}
+#define BLUE {159,228,255}
+#define PINK {0,183,238}
+#define PURPLE {RGB_PURPLE}
+#define EGGSHELL {36,228,255}
 
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
-    [VIM] = {
+    [BLNDR] = {
+        // LEFT-HAND SPLIT
+        // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE,
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        ORANGE, ORANGE, ORANGE,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        ORANGE, ORANGE, ORANGE, ORANGE,
+
+        // RIGHT-HAND SPLIT
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
+        ORANGE, ORANGE, ORANGE, ORANGE,
+        // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
+        ORANGE, ORANGE, ORANGE,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        ORANGE, ORANGE, ORANGE, ORANGE
+    },
+    [BLDR2] = {
+        // LEFT-HAND SPLIT
+        // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW,
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        YELLOW, YELLOW, YELLOW,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        YELLOW, YELLOW, YELLOW, YELLOW,
+
+        // RIGHT-HAND SPLIT
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+        YELLOW, YELLOW, YELLOW, YELLOW,
+        // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
+        YELLOW, YELLOW, YELLOW,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        YELLOW, YELLOW, YELLOW, YELLOW
+    },
+
+    [CODE] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
         GREEN, GREEN, GREEN, GREEN, GREEN,
@@ -95,29 +176,29 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [SYMB] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE,
         // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
-        EGGSHELL, EGGSHELL, EGGSHELL,
+        PURPLE, PURPLE, PURPLE,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
+        PURPLE, PURPLE, PURPLE, PURPLE,
 
         // RIGHT-HAND SPLIT
         // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE, PURPLE,
+        PURPLE, PURPLE, PURPLE, PURPLE,
         // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
-        EGGSHELL, EGGSHELL, EGGSHELL,
+        PURPLE, PURPLE, PURPLE,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
-        EGGSHELL, EGGSHELL, EGGSHELL, EGGSHELL
+        PURPLE, PURPLE, PURPLE, PURPLE
     },
 
     [MDIA] = {
@@ -148,7 +229,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
         BLUE, BLUE, BLUE, BLUE
     },
 
-    [GAME] = {
+    [NUMS] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
         PINK, PINK, PINK, PINK, PINK,
@@ -174,6 +255,33 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
         PINK, PINK, PINK,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
         PINK, PINK, PINK, PINK
+    },
+    [KYBD] = {
+        // LEFT-HAND SPLIT
+        // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED,
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        RED, RED, RED,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        RED, RED, RED, RED,
+
+        // RIGHT-HAND SPLIT
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED, RED,
+        RED, RED, RED, RED,
+        // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
+        RED, RED, RED,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        RED, RED, RED, RED
     },
 };
 
@@ -236,17 +344,26 @@ float oneup[][2] = SONG(ONE_UP_SOUND);
 void rgb_matrix_indicators_user(void) {
     if (g_suspend_state || keyboard_config.disable_layer_led) { return; }
     switch (biton32(layer_state)) {
-        case VIM:
-            set_layer_color_rgb(VIM);
+        case BLNDR:
+            set_layer_color_rgb(BLNDR);
+            break;
+        case BLDR2:
+            set_layer_color_rgb(BLDR2);
+            break;
+        case CODE:
+            set_layer_color_rgb(CODE);
             break;
         case SYMB:
-            set_layer_color_hsv(SYMB);
+            set_layer_color_rgb(SYMB);
             break;
         case MDIA:
             set_layer_color_hsv(MDIA);
             break;
-        case GAME:
-            set_layer_color_hsv(GAME);
+        case NUMS:
+            set_layer_color_hsv(NUMS);
+            break;
+        case KYBD:
+            set_layer_color_rgb(KYBD);
             break;
         default:
             if (rgb_matrix_get_flags() == LED_FLAG_NONE)
@@ -260,69 +377,94 @@ void rgb_matrix_indicators_user(void) {
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+//    [TEMPLATE] = LAYOUT_moonlander(
+//        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+//        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
+//                                            _______, _______, _______,          _______, _______, _______
+//    ),
+    // MEH  = ctrl + shift + alt
+    // HYPR = ctrl + shift + alt + gui
     [MAC] = LAYOUT_moonlander(
-        TG(VIM),          KC_EXLM,      KC_AT,            KC_HASH,            KC_DLR,             KC_PERC, KC_APP,                  APP_SWCH,          KC_CIRC,        KC_AMPR,            KC_ASTR,     _______, _______,     UC_MOD,
-        _______,          KC_Q,         KC_W,             KC_E,               KC_R,               KC_T,    KC_MAC_TABBCK,           KC_MAC_TABFWD,     KC_Y,           KC_U,               KC_I,        KC_O,    KC_P,        KC_BSLS,
-        KC_TAB,           KC_A,         KC_S,             KC_D,               KC_F,               KC_G,    KC_EQL,                 KC_MEH,            KC_H,           KC_J,               KC_K,        KC_L,    TD(CT_CPNC), TD(CT_EPNC),
-        LT(SYMB, KC_GRV), KC_Z,         KC_X,             KC_C,               KC_V,               KC_B,                                                KC_N,           KC_M,               KC_COMM,     KC_DOT,  KC_DQT,      KC_MINS,
-        MO(VIM),          _______,      KC_HYPR,          LM(NUMS, MOD_LALT), LM(NUMS, MOD_LGUI),          TG(GAME),                LT(MDIA, KC_SCLN),                 LM(NUMS, MOD_LGUI), _______,     _______, _______,     MO(SYMB),
-                                                                              KC_SPC,             KC_BSPC, LALT_T(KC_DEL),          TD(CT_SRND),       LCTL_T(KC_ENT), LSFT_T(KC_ESC)
+        _______,        KC_1,    KC_2,    KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
+        TO(CODE),       KC_Q,    KC_W,    KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    _______,
+        LCTL_T(KC_TAB), KC_A,    KC_S,    KC_D,      KC_F,    KC_G,    _______,               KC_MEH,        KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, _______,
+        _______,        KC_Z,    KC_X,    KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, _______,
+        TT(MDIA),       TO(BLNDR), KC_HYPR, KC_LALT, KC_LGUI,          _______,               _______,                         TT(NUMS),      _______, _______, _______, KC_APP,
+                                                     KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MDIA),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
     ),
-
+    // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
     [LINUX] = LAYOUT_moonlander(
-        _______, _______,      _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______,      _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______,      _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, LCTL_T(KC_QUOT),
-        _______, LGUI_T(KC_Z), _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
-        _______, _______,      _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
-                                                 _______, _______, KC_LCTRL,          _______, _______, _______
+        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
+                                            _______, _______, _______,          _______, _______, _______
     ),
-
-    [NUMS] = LAYOUT_moonlander(
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    _______,           _______, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______, _______, _______,
-        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______, _______, _______,
-                                            _______, _______, _______,           _______, _______, _______
+    // needed: period/dot (median/origin point), p for parenting, n key to open/close tool menu, i for insert keyframe, m to add marker in timeline and join vertices (alt+m), h for hide, j to join
+    [BLNDR] = LAYOUT_moonlander(
+        TG(BLNDR),         _______, _______, _______,  _______, _______,        KC_I,                     _______, _______, _______, _______, _______, _______, _______,
+        KC_M,              _______, _______, _______,  _______, _______,        KC_L,                     _______, _______, _______, _______, _______, _______, _______,
+        LT(BLDR2, KC_TAB), _______, _______, _______,  _______, _______,        KC_N,                     _______, _______, _______, _______, _______, _______, _______,
+        KC_Y,              _______, _______, _______,  _______, _______,                                           _______, _______, _______, _______, _______, _______,
+        KC_P,              KC_DOT,  KC_H,    TT(SYMB), _______,                 _______,                  _______,          _______, _______, _______, _______, _______,
+                                                       KC_LSFT, LCTL_T(KC_SPC), LALT_T(KC_ENT),           _______, _______, _______
     ),
-
-    [VIM] = LAYOUT_moonlander(
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,           _______, _______, _______, _______, _______,  _______, _______,
-        _______, _______, _______, _______, _______, _______, _______,           _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT, _______, _______,
-        _______, _______, _______, _______, _______, _______,                             _______, _______, _______, _______,  _______, _______,
-        _______, _______, _______, _______, _______,          _______,           _______,          _______, _______, _______,  _______, _______,
-                                            _______, _______, _______,           _______, _______, _______
+    [BLDR2] = LAYOUT_moonlander(
+        TG(BLDR2), _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______,   KC_CAM,  KC_KP_5, KC_KP_7, KC_KP_0, KC_PSLS, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______,   KC_O,    KC_KP_1, KC_KP_9, KC_KP_3, KC_PDOT, _______,          _______, _______, _______, _______, _______, _______, _______,
+        _______,   _______, _______, _______, KC_J,    _______,                            _______, _______, _______, _______, _______, _______,
+        _______,   _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
+                                              _______, _______, _______,          _______, _______, _______
     ),
-
-    [SYMB] = LAYOUT_moonlander(
-        VRSN,    KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______,                     _______, KC_F6,   KC_F7,  KC_F8, KC_F9,  KC_F10,  KC_F11,
-        _______, KC_EXLM,  KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE, _______,                     _______, KC_UP,   KC_1,   KC_2,  KC_3,   KC_ASTR, KC_F12,
-        _______, KC_HASH,  KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,  _______,                     _______, KC_DOWN, KC_4,   KC_5,  KC_6,   KC_PLUS, KC_BRIU,
-        _______, KC_PERC,  KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD,                                       KC_AMPR, KC_7,   KC_8,  KC_9,   KC_BSLS, KC_BRID,
-        _______, KC_COMMA, _______, _______, _______,          RGB_MOD,                     RGB_TOG,          KC_DOT, KC_0,  KC_EQL, _______, _______,
-                                             RGB_VAD, RGB_VAI, TOGGLE_LAYER_COLOR,          RGB_SLD, RGB_HUD, RGB_HUI
-    ),
-
-    [MDIA] = LAYOUT_moonlander(
-        LED_LEVEL,_______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, RESET,
-        AU_TOG,  _______,  _______, KC_MS_U, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        MU_TOG,  _______,  KC_MS_L, KC_MS_D, KC_MS_R, _______, _______,          _______, _______, _______, _______, _______, _______, KC_MPLY,
-        MU_MOD,  _______,  _______, _______, _______, _______,                            _______, _______, KC_MPRV, KC_MNXT, _______, _______,
-        _______, _______,  _______, KC_BTN1, KC_BTN2,          _______,          _______,          KC_VOLU, KC_VOLD, KC_MUTE, _______, _______,
+    [CODE] = LAYOUT_moonlander(
+        TG(CODE), _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
+        KC_QUES,  _______, _______, _______, _______, _______, KC_LT,            KC_GT,   _______, _______, _______, _______, _______, _______,
+        _______,  _______, _______, _______, _______, _______, KC_PIPE,          KC_AMPR, _______, _______, _______, _______, KC_EQL,  KC_COLN,
+        KC_EXLM,  _______, _______, _______, _______, _______,                            _______, _______, _______, KC_DQT,  KC_QUOT, _______,
+        _______,  _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
                                              _______, _______, _______,          _______, _______, _______
     ),
-
-    [GAME] = LAYOUT_moonlander(
-        KC_EQL,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_LEFT,           KC_RGHT, KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
-        KC_DEL,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    TG(SYMB),          TG(GAME), KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSLS,
-        KC_BSPC, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_HYPR,           KC_MEH,  KC_H,    KC_J,    KC_K,    KC_L,    LT(MDIA, KC_SCLN), LGUI_T(KC_QUOT),
-        KC_LSFT, LCTL_T(KC_Z),KC_X,KC_C,    KC_V,    KC_B,                                KC_N,    KC_M,    KC_COMM, KC_DOT,  RCTL_T(KC_SLSH), KC_RSFT,
-    LT(SYMB,KC_GRV),WEBUSB_PAIR,A(KC_LSFT),KC_LEFT, KC_RGHT,  TG(GAME),          RCTL_T(KC_ESC),   KC_UP,   KC_DOWN, KC_LBRC, KC_RBRC, MO(SYMB),
-                                            KC_SPC,  KC_BSPC, KC_LGUI,           KC_LALT,  KC_TAB,  KC_ENT
+    [SYMB] = LAYOUT_moonlander(
+        TG(SYMB), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, XXXXXXX,          XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_UNDS, KC_BSLS, XXXXXXX,
+        XXXXXXX,  KC_LT,   KC_LCBR, KC_LBRC, KC_LPRN, KC_GRV,  KC_PIPE,          XXXXXXX, KC_SCLN, KC_RPRN, KC_RBRC, KC_RCBR, KC_GT,   KC_COLN,
+        _______,  XXXXXXX, XXXXXXX, XXXXXXX, KC_EXLM, KC_TILD,                            XXXXXXX, KC_QUES, KC_COMM, KC_DQT,  KC_QUOT, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                             XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, _______, XXXXXXX
     ),
-
+    [NUMS] = LAYOUT_moonlander(
+        TG(NUMS), KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   XXXXXXX,          XXXXXXX, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
+        XXXXXXX,  XXXXXXX, KC_UNDS, KC_LPRN, KC_RPRN, KC_PERC, XXXXXXX,          XXXXXXX, XXXXXXX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_0, KC_F12,
+        XXXXXXX,  KC_PEQL, KC_PAST, KC_PMNS, KC_PPLS, KC_PSLS, KC_PENT,          XXXXXXX, KC_PDOT, KC_KP_4, KC_KP_5, KC_KP_6, KC_LBRC, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, KC_DLR,  KC_CIRC, XXXXXXX,                            XXXXXXX, KC_KP_1, KC_KP_2, KC_KP_3, KC_RBRC, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                             XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    [MDIA] = LAYOUT_moonlander(
+        TG(MDIA), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_MPRV, KC_VOLU,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(KYBD),
+        XXXXXXX,  XXXXXXX, XXXXXXX, KC_UP,   KC_MPLY,  KC_MNXT, KC_VOLD,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRIU,
+        XXXXXXX,  XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX, KC_MUTE,         XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, KC_BRID,
+        XXXXXXX,  KC_BTN1, KC_MS_U, KC_BTN2, XXXXXXX,  XXXXXXX,                           XXXXXXX, KC_MPLY, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX,
+        XXXXXXX,  KC_MS_L, KC_MS_D, KC_MS_R, KC_LGUI,           XXXXXXX,         XXXXXXX,          KC_VOLU, KC_VOLD, KC_MUTE, XXXXXXX, XXXXXXX,
+                                             XXXXXXX,  XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX
+    ),
+    // TOGGLE_LAYER_COLOR means the preset solid RGB color for all layers can be disabled, showing only the base layer color/animation.
+    // RGB_SLD resets the animation to the first one. You can then tap RGB_MOD repeatedly to cycle through animations again.
+    // RGB_HUI/RGB_HUD cycles the RGB hue. RGB_VAI/RGB_VAD changes RGB brightness.
+    // LED_LEVEL enables/disables the 3 bright LEDs on both sides of the keyboard that indicate which layer you're on.
+    [KYBD] = LAYOUT_moonlander(
+        TG(KYBD),  RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_MOD,        RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, UC_MOD,
+        LED_LEVEL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_HUI,        RGB_VAI, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        VRSN,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_HUD,        RGB_VAD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, AU_TOG,
+        XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TOGGLE_LAYER_COLOR,               XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MU_TOG,
+        XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,        RGB_SLD,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, MU_MOD,
+                                              XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX, XXXXXXX, XXXXXXX
+    ),
 };
 
 
