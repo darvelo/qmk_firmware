@@ -194,8 +194,8 @@ void quote_extra_code_punctuation_finished(qk_tap_dance_state_t *state, void *us
         // For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
         // In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
         case TD_DOUBLE_SINGLE_TAP:
-            tap_code16(KC_I);
-            register_code16(KC_I);
+            tap_code16(CT_EPNC_TAP);
+            register_code16(CT_EPNC_TAP);
             break;
         default:
             break;
