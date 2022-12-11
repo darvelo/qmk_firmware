@@ -393,8 +393,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,        KC_1,      KC_2,    KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
         TO(CODE),       KC_Q,      KC_W,    KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    _______,
         LCTL_T(KC_TAB), KC_A,      KC_S,    KC_D,      KC_F,    KC_G,    _______,               KC_MEH,        KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, _______,
-        _______,        KC_Z,      KC_X,    KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, _______,
-        TT(MDIA),       TO(BLNDR), KC_HYPR, KC_LALT,   KC_LGUI,          _______,               _______,                         TT(NUMS),      _______, _______, _______, KC_APP,
+        TT(MDIA),       KC_Z,      KC_X,    KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, _______,
+        KC_LEAD,        TO(BLNDR), KC_HYPR, KC_LALT,   KC_LGUI,          _______,               _______,                         TT(NUMS),      _______, _______, _______, KC_APP,
                                                        KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MDIA),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
@@ -538,3 +538,80 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [CT_EPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quote_extra_code_punctuation_finished, quote_extra_code_punctuation_reset),
     [CT_SRND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, surround_punctuation_finished, NULL), //surround_punctuation_reset),
 };
+
+
+/* Leader Key Configuration */
+
+bool did_leader_succeed;
+#ifdef AUDIO_ENABLE
+float leader_start_sound[][2] = SONG(ZELDA_TREASURE);
+float leader_succeed[][2] = SONG(COIN_SOUND);
+float leader_fail[][2] = SONG(MARIO_GAMEOVER);
+#endif
+
+void leader_start(void) {
+#ifdef AUDIO_ENABLE
+    PLAY_SONG(leader_start_sound);
+#endif
+}
+
+void leader_end(void) {
+  if (did_leader_succeed) {
+#ifdef AUDIO_ENABLE
+    PLAY_SONG(leader_succeed);
+#endif
+  } else {
+#ifdef AUDIO_ENABLE
+    PLAY_SONG(leader_fail);
+#endif
+  }
+}
+
+LEADER_EXTERNS();
+
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    did_leader_succeed = leading = false;
+
+    // SEQ_ONE_KEY(KC_E) {
+    //   // Anything you can do in a macro.
+    //   SEND_STRING(SS_LSFT("t"));
+    //   did_leader_succeed = true;
+    // } else
+
+    // SEQ_TWO_KEYS(KC_E, KC_D) {
+    //   SEND_STRING(SS_LGUI("r") "cmd\n" SS_LCTL("c"));
+    //   did_leader_succeed = true;
+    // }
+
+    // SEQ_THREE_KEYS(KC_D, KC_D, KC_S) {
+    //   SEND_STRING("https://start.duckduckgo.com\n");
+    //   did_leader_succeed = true;
+    // }
+
+    // SEQ_TWO_KEYS(KC_A, KC_S) {
+    //   register_code(KC_LGUI);
+    //   register_code(KC_S);
+    //   unregister_code(KC_S);
+    //   unregister_code(KC_LGUI);
+    //   did_leader_succeed = true;
+    // }
+
+    // Mission Control.
+    SEQ_ONE_KEY(KC_E) {
+      register_code(KC_LCTL);
+      register_code(KC_LALT);
+      register_code(KC_LSFT);
+      register_code(KC_LGUI);
+      register_code(KC_UP);
+      unregister_code(KC_UP);
+      unregister_code(KC_LCTL);
+      unregister_code(KC_LALT);
+      unregister_code(KC_LSFT);
+      unregister_code(KC_LGUI);
+      did_leader_succeed = true;
+    }
+
+    leader_end();
+  }
+}
