@@ -448,12 +448,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                              _______, _______, _______,          XXXXXXX, XXXXXXX, XXXXXXX
     ),
     [MDIA] = LAYOUT_moonlander(
-        TG(MDIA), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_MPRV, KC_VOLU,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(KYBD),
-        XXXXXXX,  XXXXXXX, XXXXXXX, KC_UP,   KC_MPLY,  KC_MNXT, KC_VOLD,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BRIU,
-        XXXXXXX,  XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX, KC_MUTE,         XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, KC_BRID,
-        XXXXXXX,  KC_BTN1, KC_MS_U, KC_BTN2, XXXXXXX,  XXXXXXX,                           XXXXXXX, KC_MPLY, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX,
-        XXXXXXX,  KC_MS_L, KC_MS_D, KC_MS_R, KC_LGUI,           XXXXXXX,         XXXXXXX,          KC_VOLU, KC_VOLD, KC_MUTE, XXXXXXX, XXXXXXX,
-                                             XXXXXXX,  XXXXXXX, XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX
+        TG(MDIA), XXXXXXX, XXXXXXX,       XXXXXXX,     XXXXXXX,       XXXXXXX,  XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, TG(KYBD),
+        XXXXXXX,  XXXXXXX, KC_LEFT,       HYPR(KC_UP), KC_RIGHT,      XXXXXXX,  XXXXXXX,         XXXXXXX, XXXXXXX, KC_MPLY, KC_MPRV, KC_MNXT, KC_VOLU, KC_BRIU,
+        XXXXXXX,  KC_MPRV, HYPR(KC_W),    KC_ESC,      HYPR(KC_E),    KC_MNXT,  XXXXXXX,         XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_VOLD, KC_BRID,
+        XXXXXXX,  KC_MUTE, KC_VOLD,       KC_VOLU,     KC_MPLY,       XXXXXXX,                            KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, KC_MUTE, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX,       XXXXXXX,     XXXXXXX,                 XXXXXXX,         XXXXXXX,          KC_BTN1, KC_BTN2, XXXXXXX, XXXXXXX, XXXXXXX,
+                                                       XXXXXXX,       XXXXXXX,  XXXXXXX,         XXXXXXX, XXXXXXX, XXXXXXX
     ),
     // TOGGLE_LAYER_COLOR means the preset solid RGB color for all layers can be disabled, showing only the base layer color/animation.
     // RGB_SLD resets the animation to the first one. You can then tap RGB_MOD repeatedly to cycle through animations again.
