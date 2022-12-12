@@ -449,10 +449,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [MDIA] = LAYOUT_moonlander(
         TG(MDIA), HYPR(KC_1), HYPR(KC_2), HYPR(KC_3),  HYPR(KC_4), HYPR(KC_5), XXXXXXX,         XXXXXXX, HYPR(KC_6), HYPR(KC_7), HYPR(KC_8), HYPR(KC_9), HYPR(KC_0), TG(KYBD),
-        XXXXXXX,  XXXXXXX,    KC_LEFT,    KC_MPLY,     KC_RIGHT,   XXXXXXX,    XXXXXXX,         XXXXXXX, XXXXXXX,    KC_MPLY,    KC_MPRV,    KC_MNXT,    KC_VOLU,    KC_BRIU,
-        XXXXXXX,  KC_MPRV,    HYPR(KC_W), HYPR(KC_UP), HYPR(KC_E), KC_MNXT,    XXXXXXX,         XXXXXXX, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,    KC_VOLD,    KC_BRID,
-        XXXXXXX,  XXXXXXX,    KC_MUTE,    KC_VOLD,     KC_VOLU,    XXXXXXX,                              KC_MS_L,    KC_MS_U,    KC_MS_D,    KC_MS_R,    KC_MUTE,    XXXXXXX,
-        XXXXXXX,  XXXXXXX,    XXXXXXX,    KC_BRID,     KC_BRIU,                XXXXXXX,         XXXXXXX,             KC_BTN1,    KC_BTN2,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        XXXXXXX,  XXXXXXX,    KC_LEFT,    KC_MPLY,     KC_RIGHT,   XXXXXXX,    XXXXXXX,         KC_BTN2, KC_MS_L,    KC_MS_D,    KC_MS_U,    KC_MS_R,    KC_VOLU,    KC_BRIU,
+        XXXXXXX,  KC_MPRV,    HYPR(KC_W), HYPR(KC_UP), HYPR(KC_E), KC_MNXT,    XXXXXXX,         KC_BTN1, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,    KC_VOLD,    KC_BRID,
+        XXXXXXX,  XXXXXXX,    KC_MUTE,    KC_VOLD,     KC_VOLU,    XXXXXXX,                              XXXXXXX,    KC_MPLY,    KC_MPRV,    KC_MNXT,    KC_MUTE,    XXXXXXX,
+        XXXXXXX,  XXXXXXX,    XXXXXXX,    KC_BRID,     KC_BRIU,                XXXXXXX,         XXXXXXX,             XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
                                                        HYPR(KC_W), KC_VOLD,    KC_BRID,         KC_BRIU, KC_VOLU,    HYPR(KC_E)
     ),
     // TOGGLE_LAYER_COLOR means the preset solid RGB color for all layers can be disabled, showing only the base layer color/animation.
