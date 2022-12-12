@@ -390,12 +390,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // MEH  = ctrl + shift + alt
     // HYPR = ctrl + shift + alt + gui
     [MAC] = LAYOUT_moonlander(
-        _______,        KC_1,      KC_2,    KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
-        TO(CODE),       KC_Q,      KC_W,    KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    _______,
-        LCTL_T(KC_TAB), KC_A,      KC_S,    KC_D,      KC_F,    KC_G,    _______,               KC_MEH,        KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, _______,
-        TT(MDIA),       KC_Z,      KC_X,    KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, _______,
-        KC_LEAD,        TO(BLNDR), KC_HYPR, KC_LALT,   KC_LGUI,          _______,               _______,                         TT(NUMS),      _______, _______, _______, KC_APP,
-                                                       KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MDIA),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
+        KC_GRV,         KC_1,    KC_2,     KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
+        TT(MDIA),       KC_Q,    KC_W,     KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
+        LCTL_T(KC_TAB), KC_A,    KC_S,     KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+        KC_LEAD,        KC_Z,    KC_X,     KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
+        _______,        _______, _______,  KC_LALT,   KC_LGUI,          TO(BLNDR),             TO(CODE),                        TT(NUMS),      _______, _______, _______, KC_APP,
+                                                      KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MDIA),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
     [LINUX] = LAYOUT_moonlander(
@@ -435,7 +435,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TG(SYMB), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, XXXXXXX,          XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_UNDS, KC_BSLS, XXXXXXX,
         XXXXXXX,  KC_LT,   KC_LCBR, KC_LBRC, KC_LPRN, KC_GRV,  KC_PIPE,          XXXXXXX, KC_SCLN, KC_RPRN, KC_RBRC, KC_RCBR, KC_GT,   KC_COLN,
-        _______,  XXXXXXX, XXXXXXX, XXXXXXX, KC_EXLM, KC_TILD,                            XXXXXXX, KC_QUES, KC_COMM, KC_DQT,  KC_QUOT, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, KC_EXLM, KC_TILD,                            XXXXXXX, KC_QUES, KC_COMM, KC_DQT,  KC_QUOT, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                              _______, _______, _______,          XXXXXXX, _______, XXXXXXX
     ),
@@ -449,10 +449,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [MDIA] = LAYOUT_moonlander(
         TG(MDIA), HYPR(KC_1), HYPR(KC_2), HYPR(KC_3),  HYPR(KC_4), HYPR(KC_5), XXXXXXX,         XXXXXXX, HYPR(KC_6), HYPR(KC_7), HYPR(KC_8), HYPR(KC_9), HYPR(KC_0), TG(KYBD),
-        XXXXXXX,  XXXXXXX,    KC_LEFT,    HYPR(KC_UP), KC_RIGHT,   XXXXXXX,    XXXXXXX,         XXXXXXX, XXXXXXX,    KC_MPLY,    KC_MPRV,    KC_MNXT,    KC_VOLU,    KC_BRIU,
-        XXXXXXX,  KC_MPRV,    HYPR(KC_W), KC_ESC,      HYPR(KC_E), KC_MNXT,    XXXXXXX,         XXXXXXX, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,    KC_VOLD,    KC_BRID,
-        XXXXXXX,  KC_MUTE,    KC_VOLD,    KC_VOLU,     KC_MPLY,    XXXXXXX,                              KC_MS_L,    KC_MS_U,    KC_MS_D,    KC_MS_R,    KC_MUTE,    XXXXXXX,
-        XXXXXXX,  XXXXXXX,    KC_BRID,    KC_BRIU,     XXXXXXX,                XXXXXXX,         XXXXXXX,             KC_BTN1,    KC_BTN2,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        XXXXXXX,  XXXXXXX,    KC_LEFT,    KC_MPLY,     KC_RIGHT,   XXXXXXX,    XXXXXXX,         XXXXXXX, XXXXXXX,    KC_MPLY,    KC_MPRV,    KC_MNXT,    KC_VOLU,    KC_BRIU,
+        XXXXXXX,  KC_MPRV,    HYPR(KC_W), HYPR(KC_UP), HYPR(KC_E), KC_MNXT,    XXXXXXX,         XXXXXXX, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,    KC_VOLD,    KC_BRID,
+        XXXXXXX,  XXXXXXX,    KC_MUTE,    KC_VOLD,     KC_VOLU,    XXXXXXX,                              KC_MS_L,    KC_MS_U,    KC_MS_D,    KC_MS_R,    KC_MUTE,    XXXXXXX,
+        XXXXXXX,  XXXXXXX,    XXXXXXX,    KC_BRID,     KC_BRIU,                XXXXXXX,         XXXXXXX,             KC_BTN1,    KC_BTN2,    XXXXXXX,    XXXXXXX,    XXXXXXX,
                                                        HYPR(KC_W), KC_VOLD,    KC_BRID,         KC_BRIU, KC_VOLU,    HYPR(KC_E)
     ),
     // TOGGLE_LAYER_COLOR means the preset solid RGB color for all layers can be disabled, showing only the base layer color/animation.
@@ -598,16 +598,10 @@ void matrix_scan_user(void) {
     // }
 
     // Mission Control.
-    SEQ_ONE_KEY(KC_E) {
-      register_code(KC_LCTL);
-      register_code(KC_LALT);
-      register_code(KC_LSFT);
+    SEQ_ONE_KEY(KC_A) {
       register_code(KC_LGUI);
-      register_code(KC_UP);
-      unregister_code(KC_UP);
-      unregister_code(KC_LCTL);
-      unregister_code(KC_LALT);
-      unregister_code(KC_LSFT);
+      register_code(KC_SPC);
+      unregister_code(KC_SPC);
       unregister_code(KC_LGUI);
       did_leader_succeed = true;
     }
