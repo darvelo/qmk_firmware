@@ -68,6 +68,7 @@ enum layers {
     SYMB,  // symbols
     NUMS,  // Turns num keys into numbers
     MDIA,  // media keys
+    MVMT,  // Cursor movement and selection.
     KYBD,  // Keyboard-specific config keys
 };
 
@@ -78,14 +79,14 @@ enum custom_keycodes {
     UC_SHRG,                                  // ¯\_(ツ)_/¯
 };
 
-/* Configurable layer colors and per-key colors. */
-
+// Configurable layer colors and per-key colors. {{{
 #define RED {RGB_RED}
-#define ORANGE {RGB_ORANGE}
+#define GOLD {RGB_GOLD}
 #define YELLOW {RGB_YELLOW}
 #define GREEN {RGB_GREEN}
-#define BLUE {159,228,255}
-#define PINK {0,183,238}
+#define SPRINGGREEN {RGB_SPRINGGREEN}
+#define PINK {RGB_PINK}
+#define TURQUOISE {RGB_TURQUOISE}
 #define PURPLE {RGB_PURPLE}
 #define EGGSHELL {36,228,255}
 
@@ -93,29 +94,29 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [BLNDR] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD,
         // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
-        ORANGE, ORANGE, ORANGE,
+        GOLD, GOLD, GOLD,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
-        ORANGE, ORANGE, ORANGE, ORANGE,
+        GOLD, GOLD, GOLD, GOLD,
 
         // RIGHT-HAND SPLIT
         // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE, ORANGE,
-        ORANGE, ORANGE, ORANGE, ORANGE,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD, GOLD,
+        GOLD, GOLD, GOLD, GOLD,
         // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
-        ORANGE, ORANGE, ORANGE,
+        GOLD, GOLD, GOLD,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
-        ORANGE, ORANGE, ORANGE, ORANGE
+        GOLD, GOLD, GOLD, GOLD
     },
     [BLDR2] = {
         // LEFT-HAND SPLIT
@@ -204,29 +205,29 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [MDIA] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
         // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
-        BLUE, BLUE, BLUE,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
-        BLUE, BLUE, BLUE, BLUE,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
 
         // RIGHT-HAND SPLIT
         // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE, BLUE,
-        BLUE, BLUE, BLUE, BLUE,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
         // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
-        BLUE, BLUE, BLUE,
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN,
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
-        BLUE, BLUE, BLUE, BLUE
+        SPRINGGREEN, SPRINGGREEN, SPRINGGREEN, SPRINGGREEN
     },
 
     [NUMS] = {
@@ -256,6 +257,33 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
         // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
         PINK, PINK, PINK, PINK
     },
+    [MVMT] = {
+        // LEFT-HAND SPLIT
+        // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        TURQUOISE, TURQUOISE, TURQUOISE,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+
+        // RIGHT-HAND SPLIT
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE,
+        // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
+        TURQUOISE, TURQUOISE, TURQUOISE,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        TURQUOISE, TURQUOISE, TURQUOISE, TURQUOISE
+    },
     [KYBD] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
@@ -284,6 +312,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
         RED, RED, RED, RED
     },
 };
+// }}}
 
 // Color-setting functions -- DO NOT MODIFY {{{
 extern bool g_suspend_state;
@@ -359,10 +388,13 @@ void rgb_matrix_indicators_user(void) {
             set_layer_color_rgb(SYMB);
             break;
         case MDIA:
-            set_layer_color_hsv(MDIA);
+            set_layer_color_rgb(MDIA);
             break;
         case NUMS:
-            set_layer_color_hsv(NUMS);
+            set_layer_color_rgb(NUMS);
+            break;
+        case MVMT:
+            set_layer_color_rgb(MVMT);
             break;
         case KYBD:
             set_layer_color_rgb(KYBD);
@@ -387,6 +419,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //        _______, _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
 //                                            _______, _______, _______,          _______, _______, _______
 //    ),
+//    [TEMPLATE] = LAYOUT_moonlander(
+//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+//                                            XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX
+//    ),
     // MEH  = ctrl + shift + alt
     // HYPR = ctrl + shift + alt + gui
     [MAC] = LAYOUT_moonlander(
@@ -395,7 +435,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LCTL_T(KC_TAB), KC_A,    KC_S,     KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LEAD,        KC_Z,    KC_X,     KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
         _______,        _______, _______,  KC_LALT,   KC_LGUI,          TO(BLNDR),             TO(CODE),                        TT(NUMS),      _______, _______, _______, KC_APP,
-                                                      KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MDIA),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
+                                                      KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MVMT),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
     [LINUX] = LAYOUT_moonlander(
@@ -447,8 +487,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                              _______, _______, _______,          XXXXXXX, XXXXXXX, XXXXXXX
     ),
+    [MVMT] = LAYOUT_moonlander(
+        TG(MVMT), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, KC_LALT, KC_LGUI, XXXXXXX, XXXXXXX,          XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                             KC_LSFT, XXXXXXX, XXXXXXX,          _______, XXXXXXX, XXXXXXX
+    ),
     [MDIA] = LAYOUT_moonlander(
-        TG(MDIA), HYPR(KC_1), HYPR(KC_2), HYPR(KC_3),  HYPR(KC_4), HYPR(KC_5), XXXXXXX,         XXXXXXX, HYPR(KC_6), HYPR(KC_7), HYPR(KC_8), HYPR(KC_9), HYPR(KC_0), TG(KYBD),
+        TG(MDIA), HYPR(KC_1), HYPR(KC_2), HYPR(KC_3),  HYPR(KC_4), HYPR(KC_5), XXXXXXX,         XXXXXXX, HYPR(KC_6), HYPR(KC_7), HYPR(KC_8), HYPR(KC_9), HYPR(KC_0), TO(KYBD),
         XXXXXXX,  XXXXXXX,    KC_LEFT,    KC_MPLY,     KC_RIGHT,   XXXXXXX,    XXXXXXX,         KC_BTN2, KC_MS_L,    KC_MS_D,    KC_MS_U,    KC_MS_R,    KC_VOLU,    KC_BRIU,
         XXXXXXX,  KC_MPRV,    HYPR(KC_W), HYPR(KC_UP), HYPR(KC_E), KC_MNXT,    XXXXXXX,         KC_BTN1, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,    KC_VOLD,    KC_BRID,
         XXXXXXX,  XXXXXXX,    KC_MUTE,    KC_VOLD,     KC_VOLU,    XXXXXXX,                              XXXXXXX,    KC_MPLY,    KC_MPRV,    KC_MNXT,    KC_MUTE,    XXXXXXX,
