@@ -370,6 +370,33 @@ float oneup[][2] = SONG(ONE_UP_SOUND);
 
 /* Configurable Layer color settings (configure only the `case` values). */
 
+bool isCodeLayer = false;
+const bool use_rgb_matrix_animation_from_eeprom = true;
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+    case CODE:
+        if (!isCodeLayer) {
+            isCodeLayer = true;
+            // RGB_MATRIX_DIGITAL_RAIN is the keyboard animation from the Matrix movie.
+            rgb_matrix_mode_noeeprom(RGB_MATRIX_DIGITAL_RAIN);
+        }
+        break;
+    default: // for any other layers, or the default layer
+        if (isCodeLayer) {
+            if (use_rgb_matrix_animation_from_eeprom) {
+                rgb_matrix_reload_from_eeprom();
+            } else {
+                // I can replace RGB_MATRIX_TYPING_HEATMAP below with the definition of my favorite named animation.
+                rgb_matrix_mode_noeeprom(RGB_MATRIX_TYPING_HEATMAP);
+            }
+            isCodeLayer = false;
+        }
+        break;
+    }
+    return state;
+}
+
 void rgb_matrix_indicators_user(void) {
     // Remove `g_suspend_state` which stopped being a visible symbol after a rebase.
     // if (g_suspend_state || keyboard_config.disable_layer_led) { return; }
@@ -382,7 +409,8 @@ void rgb_matrix_indicators_user(void) {
             set_layer_color_rgb(BLDR2);
             break;
         case CODE:
-            set_layer_color_rgb(CODE);
+            // Put nothing here because we're setting a
+            // custom RGB animation in the `layer_state_set_user()` function definition above.
             break;
         case SYMB:
             set_layer_color_rgb(SYMB);
