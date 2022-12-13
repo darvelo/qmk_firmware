@@ -462,7 +462,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TT(MDIA),       KC_Q,    KC_W,     KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
         LCTL_T(KC_TAB), KC_A,    KC_S,     KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         KC_LEAD,        KC_Z,    KC_X,     KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
-        _______,        _______, _______,  KC_LALT,   KC_LGUI,          TO(BLNDR),             TO(CODE),                        TT(NUMS),      _______, _______, _______, KC_APP,
+        _______,        _______, _______,  KC_LALT,   KC_LGUI,          TO(BLNDR),             TO(CODE),                        TT(NUMS),      _______, _______, RGB_MOD, KC_APP,
                                                       KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MVMT),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
