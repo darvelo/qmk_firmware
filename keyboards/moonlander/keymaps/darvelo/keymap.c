@@ -682,6 +682,28 @@ void matrix_scan_user(void) {
       did_leader_succeed = true;
     }
 
+    // Emoji panel.
+    SEQ_ONE_KEY(KC_E) {
+      register_code(KC_LCTL);
+      register_code(KC_LGUI);
+      register_code(KC_SPC);
+      unregister_code(KC_SPC);
+      unregister_code(KC_LGUI);
+      unregister_code(KC_LCTL);
+      did_leader_succeed = true;
+    }
+
+    // Change input source language.
+    SEQ_ONE_KEY(KC_F) {
+      register_code(KC_LCTL);
+      register_code(KC_LALT);
+      register_code(KC_SPC);
+      unregister_code(KC_SPC);
+      unregister_code(KC_LALT);
+      unregister_code(KC_LCTL);
+      did_leader_succeed = true;
+    }
+
     leader_end();
   }
 }
