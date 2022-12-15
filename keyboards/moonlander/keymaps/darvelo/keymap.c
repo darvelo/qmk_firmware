@@ -458,12 +458,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // MEH  = ctrl + shift + alt
     // HYPR = ctrl + shift + alt + gui
     [MAC] = LAYOUT_moonlander(
-        KC_GRV,         KC_1,    KC_2,     KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
-        TT(MDIA),       KC_Q,    KC_W,     KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
-        LCTL_T(KC_TAB), KC_A,    KC_S,     KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        KC_LEAD,        KC_Z,    KC_X,     KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
-        _______,        _______, _______,  KC_LALT,   KC_LGUI,          TO(BLNDR),             TO(CODE),                        TT(NUMS),      _______, _______, RGB_MOD, KC_APP,
-                                                      KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MVMT),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
+        _______,        KC_1,     KC_2,     KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
+        _______,        KC_Q,     KC_W,     KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
+        LCTL_T(KC_TAB), KC_A,     KC_S,     KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+        _______,        KC_Z,     KC_X,     KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
+        TO(BLNDR),      TT(MDIA), _______,  KC_LALT,   KC_LGUI,          KC_LEAD,               TO(CODE),                        TT(NUMS),      _______, _______, RGB_MOD, KC_APP,
+                                                       KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MVMT),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
     [LINUX] = LAYOUT_moonlander(
@@ -509,10 +509,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [NUMS] = LAYOUT_moonlander(
         TG(NUMS), KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   XXXXXXX,          XXXXXXX, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        XXXXXXX,  XXXXXXX, KC_UNDS, KC_LPRN, KC_RPRN, KC_PERC, XXXXXXX,          XXXXXXX, XXXXXXX, KC_KP_7, KC_KP_8, KC_KP_9, KC_KP_0, KC_F12,
-        XXXXXXX,  KC_PEQL, KC_PAST, KC_PMNS, KC_PPLS, KC_PSLS, KC_PENT,          XXXXXXX, KC_PDOT, KC_KP_4, KC_KP_5, KC_KP_6, KC_LBRC, XXXXXXX,
+        XXXXXXX,  XXXXXXX, KC_UNDS, KC_LPRN, KC_RPRN, KC_PERC, XXXXXXX,          XXXXXXX, XXXXXXX, KC_KP_7, KC_KP_8, KC_KP_9, XXXXXXX, KC_F12,
+        XXXXXXX,  KC_PSLS, KC_PAST, KC_PMNS, KC_PPLS, KC_PEQL, KC_PENT,          XXXXXXX, XXXXXXX, KC_KP_4, KC_KP_5, KC_KP_6, KC_LBRC, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, KC_DLR,  KC_CIRC, XXXXXXX,                            XXXXXXX, KC_KP_1, KC_KP_2, KC_KP_3, KC_RBRC, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          _______, KC_PDOT, KC_KP_0, XXXXXXX, XXXXXXX,
                                              _______, _______, _______,          XXXXXXX, XXXXXXX, XXXXXXX
     ),
     [MVMT] = LAYOUT_moonlander(
@@ -694,7 +694,7 @@ void matrix_scan_user(void) {
     }
 
     // Change input source language.
-    SEQ_ONE_KEY(KC_F) {
+    SEQ_ONE_KEY(KC_T) {
       register_code(KC_LCTL);
       register_code(KC_LALT);
       register_code(KC_SPC);
@@ -704,6 +704,16 @@ void matrix_scan_user(void) {
       did_leader_succeed = true;
     }
 
+    // Open a new Finder window.
+    SEQ_ONE_KEY(KC_F) {
+      register_code(KC_LGUI);
+      register_code(KC_LALT);
+      register_code(KC_SPC);
+      unregister_code(KC_SPC);
+      unregister_code(KC_LALT);
+      unregister_code(KC_LGUI);
+      did_leader_succeed = true;
+    }
     leader_end();
   }
 }
