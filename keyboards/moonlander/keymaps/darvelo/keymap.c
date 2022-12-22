@@ -21,23 +21,6 @@
 #define MOON_LED_LEVEL LED_LEVEL
 
 
-/* Configurable TAPPING_TERM_PER_KEY */
-
-#ifdef TAPPING_TERM_PER_KEY
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-//        case SFT_T(KC_SPC):
-//            return TAPPING_TERM + 1250;
-//        case LT(1, KC_GRV):
-//            return 130;
-        /* case TD(CT_LSND): */
-        /*     return 100; */
-        default:
-            return TAPPING_TERM;
-    }
-}
-#endif
-
 /* Config Vars */
 
 // The order of the layers matters! Read https://docs.qmk.fm/#/keymap?id=layer-precedence-and-transparency
@@ -434,6 +417,70 @@ void rgb_matrix_indicators_user(void) {
     }
 }
 
+/* Configurable TAPPING_TERM_PER_KEY */
+
+#ifdef TAPPING_TERM_PER_KEY
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        /* case LT(SYMB, KC_SPC): */
+        /* case LT(NUMS, KC_BSPC): */
+        /*     return 10000; */
+//        case SFT_T(KC_SPC):
+//            return TAPPING_TERM + 1250;
+//        case LT(1, KC_GRV):
+//            return 130;
+        /* case TD(CT_LSND): */
+        /*     return 100; */
+        default:
+            return TAPPING_TERM;
+    }
+}
+#endif
+
+/* Configurable TAPPING_FORCE_HOLD_PER_KEY */
+#ifdef TAPPING_FORCE_HOLD_PER_KEY
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        // Allow me to:
+        //    * press shift after pressing esc so I can get into normal mode and use Shift+a right away
+        //    * press space right after pressing space to start entering symbol characters
+        case LSFT_T(KC_ESC):
+        case LT(SYMB, KC_SPC):
+        /* case LT(NUMS, KC_BSPC): */
+            return true;
+        default:
+            return false;
+    }
+}
+#endif
+
+/* #ifdef PERMISSIVE_HOLD_PER_KEY */
+/* bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) { */
+/*     switch (keycode) { */
+/*         case LT(SYMB, KC_SPC): */
+/*         case LT(NUMS, KC_BSPC): */
+/*             // Immediately select the hold action when another key is tapped. */
+/*             return true; */
+/*         default: */
+/*             // Do not select the hold action when another key is tapped. */
+/*             return false; */
+/*     } */
+/* } */
+/* #endif */
+
+/* #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY */
+/* bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) { */
+/*     switch (keycode) { */
+/*         case LT(SYMB, KC_SPC): */
+/*         case LT(NUMS, KC_BSPC): */
+/*             // Immediately select the hold action when another key is pressed. */
+/*             return true; */
+/*         default: */
+/*             // Do not select the hold action when another key is pressed. */
+/*             return false; */
+/*     } */
+/* } */
+/* #endif */
 
 /* Keyboard layers. */
 
@@ -458,12 +505,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // MEH  = ctrl + shift + alt
     // HYPR = ctrl + shift + alt + gui
     [MAC] = LAYOUT_moonlander(
-        _______,        KC_1,     KC_2,     KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
-        _______,        KC_Q,     KC_W,     KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
-        LCTL_T(KC_TAB), KC_A,     KC_S,     KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        _______,        KC_Z,     KC_X,     KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
-        TO(BLNDR),      TT(MDIA), _______,  KC_LALT,   KC_LGUI,          KC_LEAD,               TO(CODE),                        TT(NUMS),      _______, _______, RGB_MOD, KC_APP,
-                                                       KC_SPC,  KC_BSPC, LALT_T(KC_DEL),        TT(MVMT),      LT(SYMB, KC_ENT), LSFT_T(KC_ESC)
+        _______,        KC_1,     KC_2,      KC_3,      KC_4,    KC_5,    KC_MAC_TABBCK,         KC_MAC_TABFWD, KC_6,             KC_7,          KC_8,    KC_9,    KC_0,    KC_MINS,
+        _______,        KC_Q,     KC_W,      KC_E,      KC_R,    KC_T,    _______,               _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
+        LCTL_T(KC_TAB), KC_A,     KC_S,      KC_D,      KC_F,    KC_G,    _______,               _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
+        _______,        KC_Z,     KC_X,      KC_C,      KC_V,    KC_B,                                          KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
+        KC_LEAD,        TT(MDIA), TO(BLNDR), KC_LALT,   KC_LGUI,          TT(NUMS),              TO(CODE),                        _______,       _______, _______, RGB_MOD, KC_APP,
+                                       LT(SYMB, KC_SPC),  LT(NUMS, KC_BSPC), LALT_T(KC_DEL),        TT(MVMT),      LT(MVMT, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
     [LINUX] = LAYOUT_moonlander(
@@ -493,9 +540,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [CODE] = LAYOUT_moonlander(
         TG(CODE), _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        KC_QUES,  _______, _______, _______, _______, _______, KC_LT,            KC_GT,   _______, _______, _______, _______, _______, _______,
+        KC_QUES,  _______, _______, _______, _______, _______, KC_LT,            KC_GT,   _______, _______, _______, _______, _______, KC_QUOT,
         _______,  _______, _______, _______, _______, _______, KC_PIPE,          KC_AMPR, _______, _______, _______, _______, KC_EQL,  KC_COLN,
-        KC_EXLM,  _______, _______, _______, _______, _______,                            _______, _______, _______, KC_DQT,  KC_QUOT, _______,
+        KC_EXLM,  _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, KC_DQT,
         _______,  _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
                                              _______, _______, _______,          _______, _______, _______
     ),
@@ -510,9 +557,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [NUMS] = LAYOUT_moonlander(
         TG(NUMS), KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   XXXXXXX,          XXXXXXX, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
         XXXXXXX,  XXXXXXX, KC_UNDS, KC_LPRN, KC_RPRN, KC_PERC, XXXXXXX,          XXXXXXX, XXXXXXX, KC_KP_7, KC_KP_8, KC_KP_9, XXXXXXX, KC_F12,
-        XXXXXXX,  KC_PSLS, KC_PAST, KC_PMNS, KC_PPLS, KC_PEQL, KC_PENT,          XXXXXXX, XXXXXXX, KC_KP_4, KC_KP_5, KC_KP_6, KC_LBRC, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, KC_DLR,  KC_CIRC, XXXXXXX,                            XXXXXXX, KC_KP_1, KC_KP_2, KC_KP_3, KC_RBRC, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          _______, KC_PDOT, KC_KP_0, XXXXXXX, XXXXXXX,
+        XXXXXXX,  KC_PSLS, KC_PAST, KC_PMNS, KC_PPLS, KC_PEQL, KC_PENT,          XXXXXXX, XXXXXXX, KC_KP_4, KC_KP_5, KC_KP_6, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, KC_DLR,  KC_CIRC, XXXXXXX,                            XXXXXXX, KC_KP_1, KC_KP_2, KC_KP_3, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          _______,          XXXXXXX,          KC_KP_0, KC_PDOT, XXXXXXX, XXXXXXX, XXXXXXX,
                                              _______, _______, _______,          XXXXXXX, XXXXXXX, XXXXXXX
     ),
     [MVMT] = LAYOUT_moonlander(
@@ -609,11 +656,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 /* Tap Dance Configuration */
 
+#ifdef TAP_DANCE_ENABLE
 qk_tap_dance_action_t tap_dance_actions[] = {
     [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, semicolon_code_punctuation_finished, semicolon_code_punctuation_reset),
     [CT_EPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quote_extra_code_punctuation_finished, quote_extra_code_punctuation_reset),
     [CT_SRND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, surround_punctuation_finished, NULL), //surround_punctuation_reset),
 };
+#endif
 
 
 /* Leader Key Configuration */
@@ -714,6 +763,7 @@ void matrix_scan_user(void) {
       unregister_code(KC_LGUI);
       did_leader_succeed = true;
     }
+
     leader_end();
   }
 }

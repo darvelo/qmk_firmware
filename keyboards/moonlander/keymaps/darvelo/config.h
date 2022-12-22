@@ -25,7 +25,15 @@
 #define LEADER_TIMEOUT 250
 #define LEADER_NO_TIMEOUT
 
-#ifdef TAP_DANCE_ENABLE
-#define TAPPING_TERM 175
+/* #ifdef TAP_DANCE_ENABLE */
+#define TAPPING_TERM 200
 #define TAPPING_TERM_PER_KEY
-#endif
+/* #endif */
+
+#define TAPPING_FORCE_HOLD
+#define TAPPING_FORCE_HOLD_PER_KEY
+
+/* #define PERMISSIVE_HOLD */
+/* #define PERMISSIVE_HOLD_PER_KEY */
+/* #define HOLD_ON_OTHER_KEY_PRESS */
+/* #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY */
