@@ -60,6 +60,9 @@ enum custom_keycodes {
     RGB_SLD,
     APP_SWCH,
     UC_SHRG,                                  // ¯\_(ツ)_/¯
+    ARROW,
+    P_ARROW,
+    P_BLOCK,
 };
 
 // Configurable layer colors and per-key colors. {{{
@@ -454,33 +457,33 @@ bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
 }
 #endif
 
-/* #ifdef PERMISSIVE_HOLD_PER_KEY */
-/* bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) { */
-/*     switch (keycode) { */
-/*         case LT(SYMB, KC_SPC): */
-/*         case LT(NUMS, KC_BSPC): */
-/*             // Immediately select the hold action when another key is tapped. */
-/*             return true; */
-/*         default: */
-/*             // Do not select the hold action when another key is tapped. */
-/*             return false; */
-/*     } */
-/* } */
-/* #endif */
+#ifdef PERMISSIVE_HOLD_PER_KEY
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(SYMB, KC_SPC):
+        case LT(NUMS, KC_BSPC):
+            // Immediately select the hold action when another key is tapped.
+            return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
+    }
+}
+#endif
 
-/* #ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY */
-/* bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) { */
-/*     switch (keycode) { */
-/*         case LT(SYMB, KC_SPC): */
-/*         case LT(NUMS, KC_BSPC): */
-/*             // Immediately select the hold action when another key is pressed. */
-/*             return true; */
-/*         default: */
-/*             // Do not select the hold action when another key is pressed. */
-/*             return false; */
-/*     } */
-/* } */
-/* #endif */
+#ifdef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        /* case LT(SYMB, KC_SPC): */
+        /* case LT(NUMS, KC_BSPC): */
+            // Immediately select the hold action when another key is pressed.
+            /* return true; */
+        default:
+            // Do not select the hold action when another key is pressed.
+            return false;
+    }
+}
+#endif
 
 /* Keyboard layers. */
 
@@ -539,27 +542,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                               _______, _______, _______,          _______, _______, _______
     ),
     [CODE] = LAYOUT_moonlander(
-        TG(CODE), _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
-        KC_QUES,  _______, _______, _______, _______, _______, KC_LT,            KC_GT,   _______, _______, _______, _______, _______, KC_QUOT,
-        _______,  _______, _______, _______, _______, _______, KC_PIPE,          KC_AMPR, _______, _______, _______, _______, KC_EQL,  KC_COLN,
-        KC_EXLM,  _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, KC_DQT,
-        _______,  _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
+        TG(CODE), _______, _______, _______, _______, _______, _______,          _______, _______, _______,      _______, _______, _______, _______,
+        KC_QUES,  _______, _______, _______, _______, _______, _______,          _______, _______, _______,      _______, _______, _______, KC_QUOT,
+        _______,  _______, _______, _______, _______, _______, KC_PIPE,          KC_AMPR, _______, _______,      _______, _______, KC_COLN, KC_EQL,
+        KC_EXLM,  _______, _______, _______, _______, _______,                            _______, _______,      _______, _______, _______, KC_DQT,
+        _______,  _______, _______, _______, _______,          _______,          LSFT(KC_ESC),     LALT(KC_ENT), _______, _______, _______, _______,
                                              _______, _______, _______,          _______, _______, _______
     ),
     [SYMB] = LAYOUT_moonlander(
-        TG(SYMB), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, XXXXXXX,          XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_UNDS, KC_BSLS, XXXXXXX,
-        XXXXXXX,  KC_LT,   KC_LCBR, KC_LBRC, KC_LPRN, KC_GRV,  KC_PIPE,          XXXXXXX, KC_SCLN, KC_RPRN, KC_RBRC, KC_RCBR, KC_GT,   KC_COLN,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, KC_EXLM, KC_TILD,                            XXXXXXX, KC_QUES, KC_COMM, KC_DQT,  KC_QUOT, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                             _______, _______, _______,          XXXXXXX, _______, XXXXXXX
+        TG(SYMB),   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        KC_GRV,     XXXXXXX, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, XXXXXXX,          XXXXXXX, KC_CIRC, KC_AMPR, KC_ASTR, KC_UNDS, KC_BSLS, XXXXXXX,
+        LGUI(KC_S), KC_LT,   KC_LCBR, KC_LBRC, KC_LPRN, P_ARROW, KC_PIPE,          XXXXXXX, ARROW,   KC_RPRN, KC_RBRC, KC_RCBR, KC_GT,   KC_COLN,
+        KC_TILD,    XXXXXXX, XXXXXXX, XXXXXXX, P_BLOCK, KC_EXLM,                            KC_SCLN, KC_QUES, KC_COMM, KC_DQT,  KC_QUOT, XXXXXXX,
+        XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX,          XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                               _______, _______, _______,          XXXXXXX, _______, XXXXXXX
     ),
     [NUMS] = LAYOUT_moonlander(
         TG(NUMS), KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   XXXXXXX,          XXXXXXX, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
         XXXXXXX,  XXXXXXX, KC_UNDS, KC_LPRN, KC_RPRN, KC_PERC, XXXXXXX,          XXXXXXX, XXXXXXX, KC_KP_7, KC_KP_8, KC_KP_9, XXXXXXX, KC_F12,
         XXXXXXX,  KC_PSLS, KC_PAST, KC_PMNS, KC_PPLS, KC_PEQL, KC_PENT,          XXXXXXX, XXXXXXX, KC_KP_4, KC_KP_5, KC_KP_6, XXXXXXX, XXXXXXX,
         XXXXXXX,  XXXXXXX, XXXXXXX, KC_DLR,  KC_CIRC, XXXXXXX,                            XXXXXXX, KC_KP_1, KC_KP_2, KC_KP_3, XXXXXXX, XXXXXXX,
-        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          _______,          XXXXXXX,          KC_KP_0, KC_PDOT, XXXXXXX, XXXXXXX, XXXXXXX,
+        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          _______,          XXXXXXX,          XXXXXXX, KC_KP_0, KC_PDOT, XXXXXXX, XXXXXXX,
                                              _______, _______, _______,          XXXXXXX, XXXXXXX, XXXXXXX
     ),
     [MVMT] = LAYOUT_moonlander(
@@ -647,6 +650,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case UC_SHRG:  // ¯\_(ツ)_/¯
             if (record->event.pressed) {
                 send_unicode_string("¯\\_(ツ)_/¯");
+            }
+            break;
+        case ARROW:
+            if (record->event.pressed) {
+                send_string("-> ");
+            }
+            break;
+        case P_ARROW:
+            if (record->event.pressed) {
+                send_string(") -> ");
+            }
+            break;
+        case P_BLOCK:
+            if (record->event.pressed) {
+                send_string(") {\n");
             }
             break;
 #endif
