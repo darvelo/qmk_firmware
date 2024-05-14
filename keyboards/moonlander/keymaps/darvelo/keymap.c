@@ -43,6 +43,7 @@ enum layers {
     LINUX, // Linux keys
 
     // Workflow layers.
+    PSHP,  // Photoshop
     BLNDR, // Blender
     BLDR2, // Blender 2nd layer
     CODE,  // Used for programming. Slight variation on the MAC layer.
@@ -71,12 +72,40 @@ enum custom_keycodes {
 #define YELLOW {RGB_YELLOW}
 #define GREEN {RGB_GREEN}
 #define SPRINGGREEN {RGB_SPRINGGREEN}
+#define BLUE {RGB_BLUE}
 #define PINK {RGB_PINK}
 #define TURQUOISE {RGB_TURQUOISE}
 #define PURPLE {RGB_PURPLE}
 #define EGGSHELL {36,228,255}
 
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
+    [PSHP] = {
+        // LEFT-HAND SPLIT
+        // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE,
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        BLUE, BLUE, BLUE,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        BLUE, BLUE, BLUE, BLUE,
+
+        // RIGHT-HAND SPLIT
+        // TOP RIGHT CORNER ................ BOTTOM RIGHT CORNER
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE, BLUE,
+        BLUE, BLUE, BLUE, BLUE,
+        // TOP LEFT CORNER ................ BOTTOM LEFT CORNER
+        BLUE, BLUE, BLUE,
+        // THUMB CLUSTER: FARTHEST-FROM-ME, MIDDLE, CLOSEST-TO-ME, LAUNCH KEY
+        BLUE, BLUE, BLUE, BLUE
+    },
     [BLNDR] = {
         // LEFT-HAND SPLIT
         // TOP LEFT CORNER ................. BOTTOM LEFT CORNER
@@ -388,6 +417,9 @@ void rgb_matrix_indicators_user(void) {
     // if (g_suspend_state || keyboard_config.disable_layer_led) { return; }
     if (keyboard_config.disable_layer_led) { return; }
     switch (biton32(layer_state)) {
+        case PSHP:
+            set_layer_color_rgb(PSHP);
+            break;
         case BLNDR:
             set_layer_color_rgb(BLNDR);
             break;
@@ -512,7 +544,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,        KC_Q,     KC_W,      KC_E,      KC_R,              KC_T,              _______,                 _______,       KC_Y,             KC_U,          KC_I,    KC_O,    KC_P,    KC_EQL,
         LCTL_T(KC_TAB), KC_A,     KC_S,      KC_D,      KC_F,              KC_G,              _______,                 _______,       KC_H,             KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
         _______,        KC_Z,     KC_X,      KC_C,      KC_V,              KC_B,                                                      KC_N,             KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_DQT,
-        _______,        TT(MDIA), TO(BLNDR), KC_LALT,   KC_LGUI,                              _______,                 TO(CODE),                        _______,       _______, _______, RGB_MOD, KC_APP,
+        TO(PSHP),       TT(MDIA), TO(BLNDR), KC_LALT,   KC_LGUI,                              _______,                 TO(CODE),                        _______,       _______, _______, RGB_MOD, KC_APP,
                                                         LT(SYMB, KC_SPC),  LT(NUMS, KC_BSPC), LALT_T(KC_DEL),          KC_LEAD,       LT(MVMT, KC_ENT), LSFT_T(KC_ESC)
     ),
     // I don't explicitly switch to this layer. I use the UC_MOD to programmatically swap the base layer between the MAC and LINUX layers.
@@ -524,7 +556,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______, _______, _______, _______, _______,          _______,          _______,          _______, _______, _______, _______, _______,
                                             _______, _______, _______,          _______, _______, _______
     ),
-    // needed: period/dot (median/origin point), p for parenting, n key to open/close tool menu, i for insert keyframe, m to add marker in timeline and join vertices (alt+m), h for hide, j to join
+    // Photoshop
+    // cmd + d - deselect selection
+    // cmd + j - layer via copy
+    // cmd + , - hide layer
+    // alt + [ - cycle visible layers backward
+    // alt + ] - cycle visible layers foreward
+    // cmd + t - free transform selection
+    // cmd + backspace - fill selection
+    // hold tilde - erase with current brush
+    [PSHP] = LAYOUT_moonlander(
+        TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_LBRC), LALT(KC_RBRC), SGUI(KC_N), LAG(KC_F),         _______, _______, _______, _______, _______, _______, _______,
+        KC_ESC,         LGUI(KC_C),    LGUI(KC_V),    LGUI(KC_Z),    SGUI(KC_Z),    KC_R,       KC_F,              _______, _______, _______, _______, _______, _______, _______,
+        LCTL_T(KC_TAB), KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_M,       LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
+        KC_LSFT,        KC_LGUI,       LGUI(KC_A),    LGUI(KC_D),    KC_Z,          KC_GRV,                                 _______, _______, _______, _______, _______, _______,
+        KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    KC_LEFT,       KC_RIGHT,                  LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
+                                                                     KC_LBRC,       KC_RBRC,    KC_ENT,            _______, _______, _______
+    ),
+    // needed: period/dot (median/origin point), p for parenting, n key to open/close tool menu, m to add marker in timeline and join vertices (alt+m), h for hide, j to join
     [BLNDR] = LAYOUT_moonlander(
         TG(BLNDR),         _______, _______, _______,  _______, _______,        KC_I,                     _______, _______, _______, _______, _______, _______, _______,
         KC_M,              _______, _______, _______,  _______, _______,        KC_L,                     _______, _______, _______, _______, _______, _______, _______,
@@ -578,7 +627,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,  XXXXXXX,    KC_LEFT,    KC_MPLY,     KC_RIGHT,   XXXXXXX,    XXXXXXX,         KC_BTN2, KC_MS_L,    KC_MS_D,    KC_MS_U,    KC_MS_R,    KC_VOLU,    KC_BRIU,
         XXXXXXX,  KC_MPRV,    HYPR(KC_W), HYPR(KC_UP), HYPR(KC_E), KC_MNXT,    XXXXXXX,         KC_BTN1, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT,    KC_VOLD,    KC_BRID,
         XXXXXXX,  XXXXXXX,    KC_MUTE,    KC_VOLD,     KC_VOLU,    XXXXXXX,                              XXXXXXX,    KC_MPLY,    KC_MPRV,    KC_MNXT,    KC_MUTE,    XXXXXXX,
-        XXXXXXX,  XXXXXXX,    XXXXXXX,    KC_BRID,     KC_BRIU,                XXXXXXX,         XXXXXXX,             XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
+        TO(KYBD), XXXXXXX,    XXXXXXX,    KC_BRID,     KC_BRIU,                XXXXXXX,         XXXXXXX,             XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,
                                                        HYPR(KC_W), KC_VOLD,    KC_BRID,         KC_BRIU, KC_VOLU,    HYPR(KC_E)
     ),
     // TOGGLE_LAYER_COLOR means the preset solid RGB color for all layers can be disabled, showing only the base layer color/animation.
