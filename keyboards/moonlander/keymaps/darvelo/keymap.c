@@ -564,13 +564,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // alt + ] - cycle visible layers foreward
     // cmd + t - free transform selection
     // cmd + backspace - fill selection
-    // hold tilde - erase with current brush
+    // hold grave - erase with current brush
+    // cmd + y  - View > Proof Colors (to see color values only)
+    //
+    // My custom shortcuts:
+    // cmd + alt + f - Flip Canvas Horizontally
     [PSHP] = LAYOUT_moonlander(
-        TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_LBRC), LALT(KC_RBRC), SGUI(KC_N), LAG(KC_F),         _______, _______, _______, _______, _______, _______, _______,
-        KC_ESC,         LGUI(KC_C),    LGUI(KC_V),    LGUI(KC_Z),    SGUI(KC_Z),    KC_R,       KC_F,              _______, _______, _______, _______, _______, _______, _______,
-        LCTL_T(KC_TAB), KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_M,       LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
-        LSFT_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    LGUI(KC_D),    KC_Z,          KC_GRV,                                 _______, _______, _______, _______, _______, _______,
-        KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    KC_LEFT,       KC_RIGHT,                  LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
+        TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_RBRC), LALT(KC_LBRC), KC_LEFT,    LGUI(KC_Y),        _______, _______, _______, _______, _______, _______, _______,
+        KC_ESC,         LGUI(KC_C),    LGUI(KC_D),    KC_SPC,        LGUI(KC_Z),    SGUI(KC_Z), KC_F,              _______, _______, _______, _______, _______, _______, _______,
+        LCTL_T(KC_M),   KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_GRV,     LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
+        LSFT_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    KC_R,          KC_Z,          LGUI(KC_V),                             _______, _______, _______, _______, _______, _______,
+        KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    SGUI(KC_N),    LAG(KC_F),                 LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
                                                                      KC_LBRC,       KC_RBRC,    KC_ENT,            _______, _______, _______
     ),
     // needed: period/dot (median/origin point), p for parenting, n key to open/close tool menu, m to add marker in timeline and join vertices (alt+m), h for hide, j to join
