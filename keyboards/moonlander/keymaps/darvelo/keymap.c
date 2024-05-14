@@ -569,7 +569,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_LBRC), LALT(KC_RBRC), SGUI(KC_N), LAG(KC_F),         _______, _______, _______, _______, _______, _______, _______,
         KC_ESC,         LGUI(KC_C),    LGUI(KC_V),    LGUI(KC_Z),    SGUI(KC_Z),    KC_R,       KC_F,              _______, _______, _______, _______, _______, _______, _______,
         LCTL_T(KC_TAB), KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_M,       LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
-        KC_LSFT,        KC_LGUI,       LGUI(KC_A),    LGUI(KC_D),    KC_Z,          KC_GRV,                                 _______, _______, _______, _______, _______, _______,
+        LSFT_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    LGUI(KC_D),    KC_Z,          KC_GRV,                                 _______, _______, _______, _______, _______, _______,
         KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    KC_LEFT,       KC_RIGHT,                  LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
                                                                      KC_LBRC,       KC_RBRC,    KC_ENT,            _______, _______, _______
     ),
