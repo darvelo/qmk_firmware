@@ -572,8 +572,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [PSHP] = LAYOUT_moonlander(
         TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_RBRC), LALT(KC_LBRC), KC_LEFT,    LGUI(KC_Y),        _______, _______, _______, _______, _______, _______, _______,
         KC_ESC,         LGUI(KC_C),    LGUI(KC_D),    KC_SPC,        LGUI(KC_Z),    SGUI(KC_Z), KC_F,              _______, _______, _______, _______, _______, _______, _______,
-        LCTL_T(KC_M),   KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_GRV,     LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
-        LSFT_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    KC_R,          KC_Z,          LGUI(KC_V),                             _______, _______, _______, _______, _______, _______,
+        LSFT_T(KC_M),   KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_GRV,     LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
+        LCTL_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    KC_R,          KC_Z,          LGUI(KC_V),                             _______, _______, _______, _______, _______, _______,
         KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    SGUI(KC_N),    LAG(KC_F),                 LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
                                                                      KC_LBRC,       KC_RBRC,    KC_ENT,            _______, _______, _______
     ),
