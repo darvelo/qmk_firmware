@@ -736,7 +736,7 @@ void tap_dance_tap_hold_finished(qk_tap_dance_state_t *state, void *user_data) {
     tap_hold->state = cur_dance(state);
     switch (tap_hold->state) {
         case TD_SINGLE_TAP:
-            register_code16(tap_hold->tap_keycode);
+            tap_code16(tap_hold->tap_keycode);
             break;
         case TD_SINGLE_HOLD:
             register_code16(tap_hold->hold_keycode);
@@ -753,7 +753,6 @@ void tap_dance_tap_hold_reset(qk_tap_dance_state_t *state, void *user_data) {
     tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
     switch (tap_hold->state) {
         case TD_SINGLE_TAP:
-            unregister_code16(tap_hold->tap_keycode);
             break;
         case TD_SINGLE_HOLD:
             unregister_code16(tap_hold->hold_keycode);
