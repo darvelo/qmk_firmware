@@ -466,6 +466,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 //            return 130;
         /* case TD(CT_LSND): */
         /*     return 100; */
+        case TD(TD_PSHP_ERSR):
+            return 125;
         default:
             return TAPPING_TERM;
     }
@@ -570,12 +572,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // My custom shortcuts:
     // cmd + alt + f - Flip Canvas Horizontally
     [PSHP] = LAYOUT_moonlander(
-        TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_RBRC), LALT(KC_LBRC), KC_LEFT,    LGUI(KC_Y),        _______, _______, _______, _______, _______, _______, _______,
-        KC_ESC,         LGUI(KC_C),    LGUI(KC_D),    KC_SPC,        LGUI(KC_Z),    SGUI(KC_Z), KC_F,              _______, _______, _______, _______, _______, _______, _______,
-        LSFT_T(KC_M),   KC_L,          KC_V,          KC_E,          LALT_T(KC_B),  KC_GRV,     LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
-        LCTL_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    KC_R,          KC_Z,          LGUI(KC_V),                             _______, _______, _______, _______, _______, _______,
-        KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    SGUI(KC_N),    LAG(KC_F),                 LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
-                                                                     KC_LBRC,       KC_RBRC,    KC_ENT,            _______, _______, _______
+        TG(PSHP),       LGUI(KC_J),    LGUI(KC_COMM), LALT(KC_RBRC),    LALT(KC_LBRC), KC_LEFT,    LGUI(KC_Y),        _______, _______, _______, _______, _______, _______, _______,
+        KC_ESC,         LGUI(KC_C),    LGUI(KC_D),    KC_SPC,           LGUI(KC_Z),    SGUI(KC_Z), KC_F,              _______, _______, _______, _______, _______, _______, _______,
+        LSFT_T(KC_M),   KC_L,          KC_V,          TD(TD_PSHP_ERSR), KC_B,          KC_LALT,    LGUI(KC_T),        _______, _______, _______, _______, _______, _______, _______,
+        LCTL_T(KC_F5),  KC_LGUI,       LGUI(KC_A),    KC_R,             KC_Z,          LGUI(KC_V),                             _______, _______, _______, _______, _______, _______,
+        KC_DEL,         LGUI(KC_BSPC), LGUI(KC_X),    SGUI(KC_N),       LAG(KC_F),                 LGUI(KC_S),        _______, _______, _______, _______, _______, _______,
+                                                                        KC_LBRC,       KC_RBRC,    KC_ENT,            _______, _______, _______
     ),
     // needed: period/dot (median/origin point), p for parenting, n key to open/close tool menu, m to add marker in timeline and join vertices (alt+m), h for hide, j to join
     [BLNDR] = LAYOUT_moonlander(
@@ -728,10 +730,48 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 /* Tap Dance Configuration */
 
 #ifdef TAP_DANCE_ENABLE
+
+void tap_dance_tap_hold_finished(qk_tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+    tap_hold->state = cur_dance(state);
+    switch (tap_hold->state) {
+        case TD_SINGLE_TAP:
+            register_code16(tap_hold->tap_keycode);
+            break;
+        case TD_SINGLE_HOLD:
+            register_code16(tap_hold->hold_keycode);
+            break;
+        case TD_DOUBLE_TAP:
+        case TD_DOUBLE_HOLD:
+        case TD_DOUBLE_SINGLE_TAP:
+        default:
+            break;
+    }
+}
+
+void tap_dance_tap_hold_reset(qk_tap_dance_state_t *state, void *user_data) {
+    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)user_data;
+    switch (tap_hold->state) {
+        case TD_SINGLE_TAP:
+            unregister_code16(tap_hold->tap_keycode);
+            break;
+        case TD_SINGLE_HOLD:
+            unregister_code16(tap_hold->hold_keycode);
+            break;
+        case TD_DOUBLE_TAP:
+        case TD_DOUBLE_HOLD:
+        case TD_DOUBLE_SINGLE_TAP:
+        default:
+            break;
+    }
+    tap_hold->state = TD_NONE;
+}
+
 qk_tap_dance_action_t tap_dance_actions[] = {
-    [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, semicolon_code_punctuation_finished, semicolon_code_punctuation_reset),
-    [CT_EPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quote_extra_code_punctuation_finished, quote_extra_code_punctuation_reset),
-    [CT_SRND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, surround_punctuation_finished, NULL), //surround_punctuation_reset),
+//    [CT_CPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, semicolon_code_punctuation_finished, semicolon_code_punctuation_reset),
+//    [CT_EPNC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, quote_extra_code_punctuation_finished, quote_extra_code_punctuation_reset),
+//    [CT_SRND] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, surround_punctuation_finished, NULL), //surround_punctuation_reset),
+    [TD_PSHP_ERSR] = ACTION_TAP_DANCE_TAP_HOLD(KC_E, KC_GRV),
 };
 #endif
 
